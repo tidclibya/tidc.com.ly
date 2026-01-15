@@ -1,35 +1,172 @@
-// main.js - الملف الرئيسي للجافاسكربت
+/**
+ * الملف الرئيسي للجافاسكريبت - مركز المعلومات والتوثيق السياحي
+ */
+
+// كائن البيانات الرئيسي
+const AppData = {
+    currentYear: new Date().getFullYear(),
+    stats: {},
+    initialized: false
+};
 
 // تهيئة التطبيق
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('TIDC Libya Tourism Portal Initialized');
+function initApp() {
+    console.log('جاري تهيئة تطبيق مركز المعلومات والتوثيق السياحي...');
     
-    // تهيئة المكونات
-    initComponents();
+    // تحميل البيانات
+    loadStatistics();
+    
+    // تهيئة الأحداث
     initEvents();
-    initGallery();
     
-    // تحميل الصور مسبقاً
-    preloadImages();
-});
-
-// تهيئة المكونات
-function initComponents() {
-    // تفعيل القوائم المنسدلة
-    if (typeof $ !== 'undefined') {
-        $('.dropdown-toggle').dropdown();
-    }
+    // تحديث التاريخ
+    updateCurrentYear();
     
-    // تأثيرات التمرير
-    initScrollEffects();
-    
-    // تأثيرات التحميل
-    initLoadingEffects();
+    AppData.initialized = true;
+    console.log('تم تهيئة التطبيق بنجاح!');
 }
 
-// تأثيرات التمرير
-function initScrollEffects() {
-    // تأثير شريط التنقل
+// تحميل الإحصائيات
+function loadStatistics() {
+    // بيانات افتراضية
+    AppData.stats = {
+        tourists: 1030,
+        hotels: 377,
+        revenue: 3.2,
+        companies: 2432,
+        rooms: 18366,
+        beds: 33644,
+        chalets: 7236,
+        villages: 132,
+        guests: 696469,
+        artisans: 723,
+        guides: 311,
+        flightsInternational: 19804,
+        flightsDomestic: 15732,
+        revenuesExpected: 3.2,
+        totalPassengers: 4463047,
+        investmentSites: 134,
+        parkArea: 3600,
+        educationalInstitutions: 16,
+        databaseSites: 7525
+    };
+    
+    console.log('تم تحميل البيانات الإحصائية');
+}
+
+// تهيئة الأحداث
+function initEvents() {
+    // تنبيهات التحديث
+    document.getElementById('refreshBtn')?.addEventListener('click', function() {
+        refreshData();
+    });
+    
+    // الأحداث العامة
+    setupGeneralEvents();
+}
+
+// تحديث البيانات
+function refreshData() {
+    console.log('جاري تحديث البيانات...');
+    
+    // محاكاة تحديث البيانات
+    AppData.stats.tourists += Math.floor(Math.random() * 5);
+    AppData.stats.guests += Math.floor(Math.random() * 50);
+    
+    // تحديث واجهة المستخدم
+    updateStatisticsUI();
+    
+    // إشعار المستخدم
+    showNotification('تم تحديث البيانات بنجاح', 'success');
+}
+
+// تحديث واجهة الإحصائيات
+function updateStatisticsUI() {
+    // تحديث عناصر DOM
+    updateElementValue('statTourists', AppData.stats.tourists);
+    updateElementValue('statHotels', AppData.stats.hotels);
+    updateElementValue('statRevenue', AppData.stats.revenue, true);
+    updateElementValue('statCompanies', AppData.stats.companies);
+    
+    console.log('تم تحديث واجهة الإحصائيات');
+}
+
+// تحديث قيمة عنصر
+function updateElementValue(elementId, value, isFloat = false) {
+    const element = document.getElementById(elementId);
+    if (element) {
+        if (isFloat) {
+            element.textContent = value.toFixed(1);
+        } else {
+            element.textContent = value.toLocaleString('en-US');
+        }
+    }
+}
+
+// إظهار الإشعارات
+function showNotification(message, type = 'info') {
+    const types = {
+        'success': 'alert-success',
+        'error': 'alert-danger',
+        'warning': 'alert-warning',
+        'info': 'alert-info'
+    };
+    
+    const alertClass = types[type] || types['info'];
+    
+    // إنشاء الإشعار
+    const notification = document.createElement('div');
+    notification.className = `alert ${alertClass} alert-dismissible fade show position-fixed`;
+    notification.style.cssText = `
+        top: 20px;
+        right: 20px;
+        z-index: 1060;
+        min-width: 300px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    `;
+    
+    notification.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    // إضافة الإشعار للصفحة
+    document.body.appendChild(notification);
+    
+    // إزالة الإشعار بعد 5 ثواني
+    setTimeout(() => {
+        notification.remove();
+    }, 5000);
+}
+
+// تحديث السنة الحالية
+function updateCurrentYear() {
+    const yearElements = document.querySelectorAll('.current-year');
+    yearElements.forEach(element => {
+        element.textContent = AppData.currentYear;
+    });
+}
+
+// تهيئة الأحداث العامة
+function setupGeneralEvents() {
+    // التمرير السلس
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+    
+    // التحكم في شريط التنقل عند التمرير
     window.addEventListener('scroll', function() {
         const navbar = document.querySelector('.navbar');
         if (window.scrollY > 100) {
@@ -37,344 +174,53 @@ function initScrollEffects() {
         } else {
             navbar.classList.remove('navbar-scrolled');
         }
-        
-        // تأثيرات الظهور عند التمرير
-        const revealElements = document.querySelectorAll('.reveal');
-        revealElements.forEach(element => {
-            const elementTop = element.getBoundingClientRect().top;
-            const windowHeight = window.innerHeight;
-            
-            if (elementTop < windowHeight - 100) {
-                element.classList.add('active');
-            }
-        });
     });
     
-    // التمرير السلس للروابط
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            
-            if (targetId === '#') return;
-            
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                const navbarHeight = document.querySelector('.navbar').offsetHeight;
-                const targetPosition = targetElement.offsetTop - navbarHeight - 20;
-                
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
-                
-                // تحديث الرابط النشط في القائمة
-                updateActiveNavLink(targetId);
+    // فتح لوحة التحكم في نافذة جديدة
+    document.querySelectorAll('a[href*="dashboard.html"]').forEach(link => {
+        link.addEventListener('click', function(e) {
+            if (this.getAttribute('target') === '_blank') {
+                e.preventDefault();
+                window.open(this.href, '_blank', 'width=1200,height=800');
             }
         });
     });
 }
 
-// تحديث الرابط النشط في القائمة
-function updateActiveNavLink(targetId) {
-    document.querySelectorAll('.nav-link').forEach(link => {
-        link.classList.remove('active');
-        
-        const href = link.getAttribute('href');
-        if (href === targetId) {
-            link.classList.add('active');
-        }
-    });
-}
-
-// تأثيرات التحميل
-function initLoadingEffects() {
-    // تأثير تحميل الصور
-    const images = document.querySelectorAll('img');
-    images.forEach(img => {
-        img.addEventListener('load', function() {
-            this.classList.add('loaded');
-        });
-        
-        // إضافة class للمؤشرات
-        if (img.complete) {
-            img.classList.add('loaded');
-        }
-    });
-}
-
-// إدارة الفعاليات
-function initEvents() {
-    // تفعيل أزرار التسجيل في الفعاليات
-    document.querySelectorAll('.event-register-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            registerEvent(this);
-        });
-    });
-}
-
-// تسجيل في فعالية
-function registerEvent(button) {
-    const eventCard = button.closest('.event-card');
-    const eventName = eventCard.querySelector('h4').textContent;
-    
-    // عرض تأكيد
-    if (confirm(`هل تريد التسجيل في فعالية "${eventName}"؟`)) {
-        // محاكاة إرسال البيانات
-        const formData = {
-            event: eventName,
-            name: 'مستخدم',
-            email: 'user@example.com',
-            date: new Date().toISOString()
-        };
-        
-        // تغيير حالة الزر
-        button.innerHTML = '<i class="fas fa-check"></i> مسجل';
-        button.classList.remove('btn-primary');
-        button.classList.add('btn-success');
-        button.disabled = true;
-        
-        // رسالة نجاح
-        showNotification('تم التسجيل بنجاح!', 'success');
-        
-        // تسجيل في وحدة التحكم
-        console.log('Event registered:', formData);
-    }
-}
-
-// إدارة المعرض
-function initGallery() {
-    // تفعيل أزرار الفلترة
-    document.querySelectorAll('.gallery-filter-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            filterGallery(this);
-        });
-    });
-    
-    // تفعيل النقر على الصور
-    document.querySelectorAll('.gallery-item').forEach(item => {
-        item.addEventListener('click', function() {
-            openImageModal(this);
-        });
-    });
-}
-
-// فلترة المعرض
-function filterGallery(button) {
-    const filter = button.getAttribute('data-filter');
-    const galleryItems = document.querySelectorAll('.gallery-item');
-    
-    // تحديث الأزرار النشطة
-    document.querySelectorAll('.gallery-filter-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    button.classList.add('active');
-    
-    // تطبيق الفلتر
-    galleryItems.forEach(item => {
-        if (filter === 'all' || item.getAttribute('data-category') === filter) {
-            item.style.display = 'block';
-        } else {
-            item.style.display = 'none';
-        }
-    });
-}
-
-// فتح نافذة الصورة
-function openImageModal(galleryItem) {
-    const img = galleryItem.querySelector('img');
-    const title = galleryItem.querySelector('.gallery-overlay h5').textContent;
-    const description = galleryItem.querySelector('.gallery-overlay p').textContent;
-    
-    // إنشاء النافذة
-    const modal = document.createElement('div');
-    modal.className = 'image-modal';
-    modal.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.9);
-        z-index: 9999;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    `;
-    
-    modal.innerHTML = `
-        <div style="position: relative; max-width: 90%; max-height: 90%;">
-            <img src="${img.src}" alt="${img.alt}" style="max-width: 100%; max-height: 90vh; border-radius: 10px;">
-            <button class="close-modal" style="
-                position: absolute;
-                top: 10px;
-                left: 10px;
-                background: rgba(255, 255, 255, 0.2);
-                border: none;
-                border-radius: 50%;
-                width: 40px;
-                height: 40px;
-                color: white;
-                font-size: 24px;
-                cursor: pointer;
-                backdrop-filter: blur(10px);
-            ">×</button>
-            <div style="position: absolute; bottom: 10px; right: 10px; color: white; background: rgba(0,0,0,0.5); padding: 10px 15px; border-radius: 5px;">
-                <h4 style="margin: 0 0 5px 0;">${title}</h4>
-                <p style="margin: 0; font-size: 0.9rem;">${description}</p>
-            </div>
-        </div>
-    `;
-    
-    document.body.appendChild(modal);
-    document.body.style.overflow = 'hidden';
-    
-    // إظهار النافذة
-    setTimeout(() => {
-        modal.style.opacity = '1';
-    }, 10);
-    
-    // إغلاق النافذة
-    const closeBtn = modal.querySelector('.close-modal');
-    closeBtn.addEventListener('click', () => {
-        closeImageModal(modal);
-    });
-    
-    // إغلاق عند النقر خارج الصورة
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            closeImageModal(modal);
-        }
-    });
-    
-    // إغلاق بالزر Escape
-    document.addEventListener('keydown', function closeOnEscape(e) {
-        if (e.key === 'Escape') {
-            closeImageModal(modal);
-            document.removeEventListener('keydown', closeOnEscape);
-        }
-    });
-}
-
-// إغلاق نافذة الصورة
-function closeImageModal(modal) {
-    modal.style.opacity = '0';
-    setTimeout(() => {
-        document.body.removeChild(modal);
-        document.body.style.overflow = 'auto';
-    }, 300);
-}
-
-// تحميل الصور مسبقاً
-function preloadImages() {
-    const imageUrls = [
-        'https://raw.githubusercontent.com/tidclibya/tidc.ly/main/66bd8a_66e80a224da145eb8afda466f1383921~mv2.avif',
-        'https://raw.githubusercontent.com/tidclibya/tidc.ly/main/66bd8a_c3ca7ae27a64402b8252aa94d925bbfc~mv2.avif',
-        'https://raw.githubusercontent.com/tidclibya/tidc.ly/main/66bd8a_932914bc7b4845e3b300b424cad83ecb~mv2.avif',
-        'https://raw.githubusercontent.com/tidclibya/tidc.ly/main/7.jpg',
-        'https://raw.githubusercontent.com/tidclibya/tidc.ly/main/8.jpg',
-        'https://raw.githubusercontent.com/tidclibya/tidc.ly/main/66bd8a_cad084455def4cb8a5670e848bc3ca4b~mv2.avif',
-        'https://raw.githubusercontent.com/tidclibya/tidc.ly/main/66bd8a_22417b9d75b54667a468d36ebe8cc12b~mv2.webp',
-        'https://raw.githubusercontent.com/tidclibya/tidc.ly/main/66bd8a_44822d76c8a9494f851382e222935551~mv2.webp'
-    ];
-    
-    imageUrls.forEach(url => {
-        const img = new Image();
-        img.src = url;
-    });
-}
-
-// عرض الإشعارات
-function showNotification(message, type = 'info') {
-    const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
-    notification.style.cssText = `
-        position: fixed;
-        top: 100px;
-        right: 20px;
-        background: ${type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : '#17a2b8'};
-        color: white;
-        padding: 15px 25px;
-        border-radius: 5px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        z-index: 9999;
-        transform: translateX(120%);
-        transition: transform 0.3s ease;
-    `;
-    
-    notification.innerHTML = `
-        <div style="display: flex; align-items: center;">
-            <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}" 
-               style="margin-left: 10px;"></i>
-            <span>${message}</span>
-        </div>
-    `;
-    
-    document.body.appendChild(notification);
-    
-    // إظهار الإشعار
-    setTimeout(() => {
-        notification.style.transform = 'translateX(0)';
-    }, 10);
-    
-    // إخفاء الإشعار بعد 3 ثوانٍ
-    setTimeout(() => {
-        notification.style.transform = 'translateX(120%)';
-        setTimeout(() => {
-            document.body.removeChild(notification);
-        }, 300);
-    }, 3000);
-}
-
-// تحميل البيانات الديناميكية
-async function loadData(endpoint) {
-    try {
-        const response = await fetch(endpoint);
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return await response.json();
-    } catch (error) {
-        console.error('Error loading data:', error);
-        showNotification('حدث خطأ في تحميل البيانات', 'error');
-        return null;
-    }
-}
-
-// حفظ التفضيلات
-function savePreference(key, value) {
-    localStorage.setItem(`tidc_${key}`, JSON.stringify(value));
-}
-
-function getPreference(key, defaultValue = null) {
-    const value = localStorage.getItem(`tidc_${key}`);
-    return value ? JSON.parse(value) : defaultValue;
-}
-
-// إدارة حالة التحميل
-const LoadingManager = {
-    show: function(elementId) {
-        const element = document.getElementById(elementId);
-        if (element) {
-            element.classList.add('loading');
-        }
-    },
-    
-    hide: function(elementId) {
-        const element = document.getElementById(elementId);
-        if (element) {
-            element.classList.remove('loading');
-        }
-    }
-};
-
-// تصدير الوظائف (اختياري)
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        initComponents,
-        showNotification,
-        loadData
+// تصدير البيانات
+function exportData(format = 'excel') {
+    const formats = {
+        'excel': 'تصدير كملف Excel',
+        'pdf': 'تصدير كملف PDF',
+        'csv': 'تصدير كملف CSV'
     };
+    
+    showNotification(`جاري ${formats[format]}...`, 'info');
+    
+    // محاكاة عملية التصدير
+    setTimeout(() => {
+        showNotification(`تم ${formats[format]} بنجاح`, 'success');
+    }, 1500);
 }
+
+// تحميل التطبيق عند اكتمال تحميل الصفحة
+document.addEventListener('DOMContentLoaded', function() {
+    initApp();
+    
+    // إضافة تأثيرات دخول للعناصر
+    setTimeout(() => {
+        document.querySelectorAll('.service-card').forEach((card, index) => {
+            setTimeout(() => {
+                card.classList.add('fade-in-up');
+            }, index * 100);
+        });
+    }, 500);
+});
+
+// تصدير الوظائف للاستخدام العام
+window.TIDCApp = {
+    refreshData,
+    exportData,
+    showNotification,
+    getStats: () => AppData.stats
+};
