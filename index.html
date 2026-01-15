@@ -37,77 +37,373 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/tidclibya/tidc.ly/main/tidclogo.png">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        :root {
+            --primary-color: #1a4569;
+            --primary-dark: #0f2d44;
+            --secondary-color: #f8f9fa;
+            --accent-color: #d4af37;
+            --accent-light: #f1e5b9;
+        }
+        
+        body {
+            font-family: 'Cairo', 'Tahoma', sans-serif;
+            background-color: #f9f9f9;
+            overflow-x: hidden;
+        }
+        
+        /* Navbar */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15);
+            padding: 12px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo {
+            height: 50px;
+            width: auto;
+            margin-left: 10px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+        
+        .nav-link {
+            font-weight: 600;
+            margin: 0 5px;
+            position: relative;
+            transition: all 0.3s;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 0;
+            height: 3px;
+            background-color: var(--accent-color);
+            transition: width 0.3s;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), 
+                        url('https://raw.githubusercontent.com/tidclibya/tidc.ly/main/12.jpg') no-repeat center center;
+            background-size: cover;
+            background-attachment: fixed;
+            color: white;
+            padding: 180px 0 100px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+        }
+        
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Live Stats Section */
+        .live-stats-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .live-stats-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.05"><circle cx="50" cy="50" r="40" stroke="white" stroke-width="2" fill="none" /></svg>');
+            background-size: 200px;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .stat-icon {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+        
+        .stat-number {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+        
+        .stat-title {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .stat-change {
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        
+        .stat-change.positive {
+            background: rgba(40, 167, 69, 0.2);
+            color: #28a745;
+        }
+        
+        .stat-change.negative {
+            background: rgba(220, 53, 69, 0.2);
+            color: #dc3545;
+        }
+        
+        /* Sections */
+        .section-title {
+            position: relative;
+            margin-bottom: 40px;
+            font-weight: 700;
+            text-align: center;
+            color: var(--primary-dark);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            right: 50%;
+            transform: translateX(50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            border-radius: 2px;
+        }
+        
+        .service-card {
+            transition: all 0.4s ease;
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            height: 100%;
+            background: white;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        .service-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        /* Charts Section */
+        .charts-section {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+        
+        .chart-container {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            height: 100%;
+        }
+        
+        /* AI Assistant */
+        .ai-assistant {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 1000;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            border-radius: 50px;
+            box-shadow: 0 8px 25px rgba(26, 69, 105, 0.4);
+            padding: 12px 25px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s;
+            animation: pulse 2s infinite;
+        }
+        
+        .ai-assistant:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(26, 69, 105, 0.5);
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 8px 25px rgba(26, 69, 105, 0.4); }
+            50% { box-shadow: 0 8px 25px rgba(26, 69, 105, 0.8); }
+            100% { box-shadow: 0 8px 25px rgba(26, 69, 105, 0.4); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 2.8rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .stat-number {
+                font-size: 2.3rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.3rem;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+            
+            .ai-assistant {
+                bottom: 20px;
+                left: 20px;
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="index.html">
-                <img src="https://raw.githubusercontent.com/tidclibya/tidc.ly/main/tidclogo.png" 
-                     alt="شعار مركز المعلومات والتوثيق السياحي الليبي" 
-                     class="logo">
-                <span class="brand-text">
-                    مركز المعلومات والتوثيق السياحي
-                    <small>ليبيا</small>
-                </span>
+            <a class="navbar-brand" href="#">
+                <img src="https://raw.githubusercontent.com/tidclibya/tidc.ly/main/tidclogo.png" alt="شعار المركز" class="logo me-2">
+                TIDCLIBYA
             </a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            
-            <div class="collapse navbar-collapse" id="mainNav">
-                <ul class="navbar-nav ms-auto">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="index.html">
-                            <i class="fas fa-home"></i> الرئيسية
-                        </a>
+                        <a class="nav-link active" href="#">الرئيسية</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="tourismDropdown" data-bs-toggle="dropdown">
-                            <i class="fas fa-landmark"></i> السياحة
+                        <a class="nav-link dropdown-toggle" href="#" id="studiesDropdown" data-bs-toggle="dropdown">
+                            الدراسات السياحية
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#heritage">الموروث الثقافي</a></li>
-                            <li><a class="dropdown-item" href="#archaeology">المواقع الأثرية</a></li>
-                            <li><a class="dropdown-item" href="#nature">الطبيعة</a></li>
+                            <li><a class="dropdown-item" href="#">الدراسات والأبحاث</a></li>
+                            <li><a class="dropdown-item" href="#">الإحصاءات السياحية</a></li>
+                            <li><a class="dropdown-item" href="#">تقارير الأداء</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" data-bs-toggle="dropdown">
+                            الخدمات الإلكترونية
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">خدمات السياح</a></li>
+                            <li><a class="dropdown-item" href="#">خدمات مقدمي الخدمات</a></li>
+                            <li><a class="dropdown-item" href="#">خدمات الباحثين</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="libraryDropdown" data-bs-toggle="dropdown">
+                            المكتبة الإلكترونية
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">الكتب والمؤلفات</a></li>
+                            <li><a class="dropdown-item" href="#">الدراسات العلمية</a></li>
+                            <li><a class="dropdown-item" href="#">الوثائق التاريخية</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="publicationsDropdown" data-bs-toggle="dropdown">
+                            اصدارات المركز
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">النشرات الدورية</a></li>
+                            <li><a class="dropdown-item" href="#">الكتيبات الإرشادية</a></li>
+                            <li><a class="dropdown-item" href="#">الخرائط السياحية</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="local-photos.html">
-                            <i class="fas fa-images"></i> معرض الصور
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="events.html">
-                            <i class="fas fa-calendar-alt"></i> الفعاليات
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="dashboard.html" target="_blank">
-                            <i class="fas fa-chart-line"></i> لوحة التحكم
+                            لوحة التحكم
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#contact">
-                            <i class="fas fa-envelope"></i> اتصل بنا
+                        <a class="nav-link" href="#ai-assistant" id="aiAssistantBtn">
+                            المساعد الافتراضي
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#statistics">
+                            الإحصائيات
                         </a>
                     </li>
                 </ul>
-                
-                <div class="language-switcher ms-3">
+                <div class="d-flex">
                     <div class="dropdown">
-                        <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-globe"></i> العربية
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-language"></i> English</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-language"></i> Français</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-language"></i> Italiano</a></li>
+                        <a class="btn btn-outline-light dropdown-toggle" href="#" role="button" id="languageDropdown" data-bs-toggle="dropdown">
+                            <i class="fas fa-globe me-1"></i> العربية
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">English</a></li>
+                            <li><a class="dropdown-item" href="#">Italiano</a></li>
+                            <li><a class="dropdown-item" href="#">Français</a></li>
                         </ul>
                     </div>
                 </div>
@@ -118,332 +414,341 @@
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="container">
-            <div class="row align-items-center min-vh-100">
-                <div class="col-lg-8 mx-auto text-center">
-                    <h1 class="hero-title animate__animated animate__fadeInDown">
-                        <span class="libya-flag">
-                            <span class="black"></span>
-                            <span class="red"></span>
-                            <span class="green"></span>
-                        </span>
-                        ليبيا.. جوهرة المتوسط
-                        <span class="libya-flag">
-                            <span class="black"></span>
-                            <span class="red"></span>
-                            <span class="green"></span>
-                        </span>
-                    </h1>
-                    
-                    <p class="hero-subtitle animate__animated animate__fadeIn animate__delay-1s">
-                        أرض الحضارات العريقة والطبيعة الساحرة، حيث تلتقي عراقة التاريخ بسحر الصحراء وهدوء البحر.
-                    </p>
-                    
-                    <div class="hero-stats animate__animated animate__fadeInUp animate__delay-2s">
-                        <div class="row">
-                            <div class="col-md-3 col-6">
-                                <div class="stat-item">
-                                    <h3>350+</h3>
-                                    <p>موقع أثري</p>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-6">
-                                <div class="stat-item">
-                                    <h3>1900+ كم</h3>
-                                    <p>ساحل بحري</p>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-6">
-                                <div class="stat-item">
-                                    <h3>90%</h3>
-                                    <p>مساحة صحراء</p>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-6">
-                                <div class="stat-item">
-                                    <h3>5</h3>
-                                    <p>مواقع تراث عالمي</p>
-                                </div>
-                            </div>
+            <h1 class="hero-title animate__animated animate__fadeInDown">مركز المعلومات والتوثيق السياحي الليبي</h1>
+            <p class="hero-subtitle animate__animated animate__fadeIn animate__delay-1s">
+                بوابة السياحة الليبية الشاملة - نقدم أحدث الدراسات، الإحصاءات، والخدمات الذكية لتطوير القطاع السياحي
+            </p>
+            <div class="mt-5 animate__animated animate__fadeInUp animate__delay-2s">
+                <a href="#services" class="btn btn-primary btn-lg me-3">
+                    <i class="fas fa-cogs me-2"></i> خدماتنا
+                </a>
+                <a href="dashboard.html" target="_blank" class="btn btn-warning btn-lg me-3">
+                    <i class="fas fa-chart-line me-2"></i> لوحة التحكم
+                </a>
+                <a href="#statistics" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-chart-bar me-2"></i> الإحصائيات الحية
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Statistics Section -->
+    <section id="statistics" class="live-stats-section">
+        <div class="container">
+            <h2 class="section-title text-white">الإحصائيات الحية للقطاع السياحي</h2>
+            <p class="text-center text-white mb-5" style="opacity: 0.9;">أحدث البيانات والمؤشرات السياحية المحدثة لحظياً</p>
+            
+            <div class="row g-4">
+                <!-- Row 1 -->
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
                         </div>
-                    </div>
-                    
-                    <div class="hero-buttons mt-5">
-                        <a href="local-photos.html" class="btn btn-primary btn-lg me-3">
-                            <i class="fas fa-images me-2"></i> معرض الصور
-                        </a>
-                        <a href="events.html" class="btn btn-outline-light btn-lg me-3">
-                            <i class="fas fa-calendar-alt me-2"></i> الفعاليات
-                        </a>
-                        <a href="dashboard.html" class="btn btn-warning btn-lg" target="_blank">
-                            <i class="fas fa-chart-line me-2"></i> مؤشرات السياحة
-                        </a>
+                        <div class="stat-number" id="statTourists">0</div>
+                        <div class="stat-title">السياح الوافدين</div>
+                        <div class="stat-change positive" id="statTouristsChange">+12%</div>
                     </div>
                 </div>
+                
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-hotel"></i>
+                        </div>
+                        <div class="stat-number" id="statHotels">0</div>
+                        <div class="stat-title">الفنادق</div>
+                        <div class="stat-change positive" id="statHotelsChange">+8%</div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="stat-number" id="statRevenue">0</div>
+                        <div class="stat-title">الإيرادات (مليار د.ل)</div>
+                        <div class="stat-change positive" id="statRevenueChange">+24%</div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <div class="stat-number" id="statCompanies">0</div>
+                        <div class="stat-title">الشركات السياحية</div>
+                        <div class="stat-change positive" id="statCompaniesChange">+15%</div>
+                    </div>
+                </div>
+                
+                <!-- Row 2 -->
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-bed"></i>
+                        </div>
+                        <div class="stat-number" id="statRooms">0</div>
+                        <div class="stat-title">الغرف الفندقية</div>
+                        <div class="stat-change positive">+5%</div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div class="stat-number" id="statChalets">0</div>
+                        <div class="stat-title">الشاليهات</div>
+                        <div class="stat-change positive">+12%</div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-umbrella-beach"></i>
+                        </div>
+                        <div class="stat-number" id="statVillages">0</div>
+                        <div class="stat-title">القرى السياحية</div>
+                        <div class="stat-change positive">+10%</div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-user-friends"></i>
+                        </div>
+                        <div class="stat-number" id="statGuests">0</div>
+                        <div class="stat-title">نزلاء الفنادق</div>
+                        <div class="stat-change positive">+14%</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-5">
+                <a href="dashboard.html" target="_blank" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-chart-line me-2"></i> عرض جميع المؤشرات
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Charts Section -->
+    <section class="charts-section">
+        <div class="container">
+            <h2 class="section-title">تحليلات بيانية</h2>
+            <p class="text-center text-muted mb-5">تحليل مرئي لأهم مؤشرات القطاع السياحي</p>
+            
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="chart-container">
+                        <h4 class="mb-4"><i class="fas fa-chart-line me-2"></i> تطور أعداد السياح</h4>
+                        <canvas id="touristsChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="chart-container">
+                        <h4 class="mb-4"><i class="fas fa-hotel me-2"></i> توزيع الفنادق حسب المدن</h4>
+                        <canvas id="hotelsChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="col-md-12">
+                    <div class="chart-container">
+                        <h4 class="mb-4"><i class="fas fa-chart-bar me-2"></i> مقارنة الإيرادات السنوية</h4>
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-5">
+        <div class="container">
+            <h2 class="section-title">خدمات المركز الرئيسية</h2>
+            <p class="text-center text-muted mb-5">نقدم مجموعة شاملة من الخدمات لتطوير القطاع السياحي</p>
+            
+            <div class="row g-4">
+                <!-- الدراسات -->
+                <div class="col-md-4">
+                    <div class="service-card card text-center p-4">
+                        <div class="service-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <h3 class="card-title">الدراسات السياحية</h3>
+                        <p class="card-text">
+                            إعداد دراسات وأبحاث متخصصة في مجال السياحة، تحليل البيانات، وإعداد التقارير الدورية.
+                        </p>
+                        <a href="#" class="btn btn-outline-primary">تصفح الدراسات</a>
+                    </div>
+                </div>
+                
+                <!-- الخدمات الإلكترونية -->
+                <div class="col-md-4">
+                    <div class="service-card card text-center p-4">
+                        <div class="service-icon">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <h3 class="card-title">الخدمات الإلكترونية</h3>
+                        <p class="card-text">
+                            خدمات إلكترونية متكاملة للسياح، مقدمي الخدمات، والباحثين عبر البوابة الإلكترونية.
+                        </p>
+                        <a href="#" class="btn btn-outline-primary">استخدام الخدمات</a>
+                    </div>
+                </div>
+                
+                <!-- المكتبة الإلكترونية -->
+                <div class="col-md-4">
+                    <div class="service-card card text-center p-4">
+                        <div class="service-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h3 class="card-title">المكتبة الإلكترونية</h3>
+                        <p class="card-text">
+                            مكتبة رقمية شاملة تشمل الكتب، الدراسات، الوثائق، والمطبوعات المتعلقة بالسياحة.
+                        </p>
+                        <a href="#" class="btn btn-outline-primary">زيارة المكتبة</a>
+                    </div>
+                </div>
+                
+                <!-- اصدارات المركز -->
+                <div class="col-md-4">
+                    <div class="service-card card text-center p-4">
+                        <div class="service-icon">
+                            <i class="fas fa-newspaper"></i>
+                        </div>
+                        <h3 class="card-title">اصدارات المركز</h3>
+                        <p class="card-text">
+                            إصدارات متنوعة تشمل النشرات الدورية، الكتيبات الإرشادية، والخرائط السياحية.
+                        </p>
+                        <a href="#" class="btn btn-outline-primary">معرفة المزيد</a>
+                    </div>
+                </div>
+                
+                <!-- لوحة التحكم -->
+                <div class="col-md-4">
+                    <div class="service-card card text-center p-4">
+                        <div class="service-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="card-title">لوحة التحكم</h3>
+                        <p class="card-text">
+                            لوحة تحكم تفاعلية تعرض أحدث الإحصاءات والمؤشرات السياحية مع إمكانيات تحليل متقدمة.
+                        </p>
+                        <a href="dashboard.html" target="_blank" class="btn btn-outline-primary">الدخول للوحة</a>
+                    </div>
+                </div>
+                
+                <!-- المساعد الافتراضي -->
+                <div class="col-md-4">
+                    <div class="service-card card text-center p-4">
+                        <div class="service-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3 class="card-title">المساعد الافتراضي</h3>
+                        <p class="card-text">
+                            مساعد ذكي مدعوم بالذكاء الاصطناعي للإجابة على الاستفسارات وتقديم المعلومات السياحية.
+                        </p>
+                        <button class="btn btn-outline-primary" onclick="openAIChat()">تحدث مع المساعد</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Assistant Chat Window -->
+    <div id="aiChatWindow" class="position-fixed bottom-0 start-0 m-4 p-3 bg-white rounded shadow-lg" style="width: 350px; z-index: 1050; display: none;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="mb-0"><i class="fas fa-robot text-primary me-2"></i> المساعد الافتراضي</h5>
+            <button class="btn btn-sm btn-outline-secondary" onclick="closeAIChat()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div id="aiChatMessages" class="mb-3" style="height: 300px; overflow-y: auto; font-size: 0.9rem;">
+            <div class="alert alert-info p-2">
+                <i class="fas fa-info-circle me-2"></i>
+                مرحباً! كيف يمكنني مساعدتك اليوم؟
             </div>
         </div>
         
-        <div class="scroll-indicator">
-            <a href="#features">
-                <i class="fas fa-chevron-down"></i>
-            </a>
+        <div class="input-group">
+            <input type="text" id="aiChatInput" class="form-control" placeholder="اكتب سؤالك هنا...">
+            <button class="btn btn-primary" onclick="sendAIMessage()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
         </div>
-    </section>
+    </div>
 
-    <!-- Features Section -->
-    <section id="features" class="features-section py-5">
-        <div class="container">
-            <div class="section-header text-center mb-5">
-                <h2 class="section-title">خدماتنا السياحية</h2>
-                <p class="section-subtitle">نقدم مجموعة شاملة من الخدمات للسياح والباحثين</p>
-            </div>
-            
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-map-marked-alt"></i>
-                        </div>
-                        <h3>الخرائط التفاعلية</h3>
-                        <p>خرائط تفاعلية شاملة للمواقع السياحية والآثار في جميع أنحاء ليبيا</p>
-                    </div>
-                </div>
-                
-                <div class="col-md-4">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-book-open"></i>
-                        </div>
-                        <h3>المعلومات السياحية</h3>
-                        <p>معلومات شاملة ودقيقة عن جميع الوجهات السياحية في ليبيا</p>
-                    </div>
-                </div>
-                
-                <div class="col-md-4">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <h3>الإحصائيات</h3>
-                        <p>أحدث الإحصائيات والمؤشرات السياحية عبر لوحة التحكم المتكاملة</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Heritage Section -->
-    <section id="heritage" class="heritage-section py-5 bg-light">
-        <div class="container">
-            <div class="section-header text-center mb-5">
-                <h2 class="section-title">الموروث الثقافي الليبي</h2>
-                <p class="section-subtitle">تراث غني يجمع بين الأصالة العربية والإفريقية والمتوسطية</p>
-            </div>
-            
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="heritage-card">
-                        <img src="https://raw.githubusercontent.com/tidclibya/tidc.ly/main/66bd8a_cad084455def4cb8a5670e848bc3ca4b~mv2.avif" 
-                             alt="التراث البدوي" 
-                             class="img-fluid">
-                        <div class="heritage-content">
-                            <h3>التراث البدوي</h3>
-                            <p>عادات وتقاليد بدوية أصيلة تعكس حياة الصحراء</p>
-                            <a href="#" class="btn btn-sm btn-outline-primary">المزيد</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-4">
-                    <div class="heritage-card">
-                        <img src="https://raw.githubusercontent.com/tidclibya/tidc.ly/main/7.jpg" 
-                             alt="المطبخ الليبي" 
-                             class="img-fluid">
-                        <div class="heritage-content">
-                            <h3>المطبخ الليبي</h3>
-                            <p>أطباق تقليدية تجمع بين النكهات المتنوعة</p>
-                            <a href="#" class="btn btn-sm btn-outline-primary">المزيد</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-4">
-                    <div class="heritage-card">
-                        <img src="https://raw.githubusercontent.com/tidclibya/tidc.ly/main/8.jpg" 
-                             alt="الفنون التقليدية" 
-                             class="img-fluid">
-                        <div class="heritage-content">
-                            <h3>الفنون التقليدية</h3>
-                            <p>فنون وحرف يدوية تعبر عن الهوية الليبية</p>
-                            <a href="#" class="btn btn-sm btn-outline-primary">المزيد</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Archaeological Sites -->
-    <section id="archaeology" class="archaeology-section py-5">
-        <div class="container">
-            <div class="section-header text-center mb-5">
-                <h2 class="section-title">المواقع الأثرية</h2>
-                <p class="section-subtitle">شواهد حية على حضارات عريقة تعاقبت على أرض ليبيا</p>
-            </div>
-            
-            <div class="row">
-                <div class="col-md-6 mb-4">
-                    <div class="archaeology-card">
-                        <div class="row g-0">
-                            <div class="col-md-6">
-                                <img src="https://raw.githubusercontent.com/tidclibya/tidc.ly/main/66bd8a_22417b9d75b54667a468d36ebe8cc12b~mv2.webp" 
-                                     alt="لبتيس ماجنا" 
-                                     class="img-fluid">
-                            </div>
-                            <div class="col-md-6">
-                                <div class="card-body">
-                                    <h3 class="card-title">لبتيس ماجنا</h3>
-                                    <p class="card-text">أحد أهم المدن الرومانية في أفريقيا، أسسها الفينيقيون في القرن السابع قبل الميلاد</p>
-                                    <div class="site-info">
-                                        <span class="badge bg-primary">روماني</span>
-                                        <span class="badge bg-success">تراث عالمي</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-6 mb-4">
-                    <div class="archaeology-card">
-                        <div class="row g-0">
-                            <div class="col-md-6">
-                                <img src="https://raw.githubusercontent.com/tidclibya/tidc.ly/main/66bd8a_44822d76c8a9494f851382e222935551~mv2.webp" 
-                                     alt="صبراتة" 
-                                     class="img-fluid">
-                            </div>
-                            <div class="col-md-6">
-                                <div class="card-body">
-                                    <h3 class="card-title">صبراتة</h3>
-                                    <p class="card-text">مدينة فينيقية ثم رومانية على ساحل المتوسط، تشتهر بمسرحها الروماني</p>
-                                    <div class="site-info">
-                                        <span class="badge bg-primary">فينيقي</span>
-                                        <span class="badge bg-success">تراث عالمي</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Nature Section -->
-    <section id="nature" class="nature-section py-5 bg-light">
-        <div class="container">
-            <div class="section-header text-center mb-5">
-                <h2 class="section-title">الطبيعة في ليبيا</h2>
-                <p class="section-subtitle">تنوع جغرافي فريد من الصحراء إلى البحر</p>
-            </div>
-            
-            <div class="row g-4">
-                <div class="col-md-6">
-                    <div class="nature-card">
-                        <img src="https://raw.githubusercontent.com/tidclibya/tidc.ly/main/66bd8a_66e80a224da145eb8afda466f1383921~mv2.avif" 
-                             alt="الصحراء الليبية" 
-                             class="img-fluid">
-                        <div class="nature-content">
-                            <h3>الصحراء الليبية</h3>
-                            <p>أكبر صحراء في العالم، تشكل 90% من مساحة ليبيا</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-6">
-                    <div class="nature-card">
-                        <img src="https://raw.githubusercontent.com/tidclibya/tidc.ly/main/66bd8a_c3ca7ae27a64402b8252aa94d925bbfc~mv2.avif" 
-                             alt="الواحات الليبية" 
-                             class="img-fluid">
-                        <div class="nature-content">
-                            <h3>الواحات الليبية</h3>
-                            <p>جمال الطبيعة في قلب الصحراء، مثل واحة غدامس</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- AI Assistant Button -->
+    <div class="ai-assistant" onclick="toggleAIChat()">
+        <i class="fas fa-robot ai-icon"></i>
+        <span>المساعد الافتراضي</span>
+    </div>
 
     <!-- Footer -->
-    <footer id="contact" class="footer py-5">
+    <footer class="bg-dark text-white py-5">
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 mb-4">
-                    <div class="footer-about">
-                        <img src="https://raw.githubusercontent.com/tidclibya/tidc.ly/main/tidclogo.png" 
-                             alt="شعار المركز" 
-                             class="footer-logo mb-3">
-                        <p class="mb-3">مركز المعلومات والتوثيق السياحي الليبي، المصدر الموثوق للمعلومات السياحية في ليبيا.</p>
-                        <div class="social-links">
-                            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                            <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
-                        </div>
+                    <h5 class="mb-4">مركز المعلومات والتوثيق السياحي الليبي</h5>
+                    <p>المصدر الموثوق للمعلومات والخدمات السياحية في ليبيا، نعمل على تطوير وتنمية القطاع السياحي من خلال تقديم المعلومات الدقيقة والخدمات المتطورة.</p>
+                    <div class="social-links mt-3">
+                        <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
                 
                 <div class="col-lg-2 col-md-4 mb-4">
-                    <h4 class="footer-title">روابط سريعة</h4>
-                    <ul class="footer-links">
-                        <li><a href="index.html">الرئيسية</a></li>
-                        <li><a href="local-photos.html">معرض الصور</a></li>
-                        <li><a href="events.html">الفعاليات</a></li>
-                        <li><a href="dashboard.html" target="_blank">لوحة التحكم</a></li>
+                    <h5 class="mb-4">روابط سريعة</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white-50 text-decoration-none">الرئيسية</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">الدراسات</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">الخدمات الإلكترونية</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">المكتبة الإلكترونية</a></li>
                     </ul>
                 </div>
                 
                 <div class="col-lg-3 col-md-4 mb-4">
-                    <h4 class="footer-title">السياحة في ليبيا</h4>
-                    <ul class="footer-links">
-                        <li><a href="#heritage">الموروث الثقافي</a></li>
-                        <li><a href="#archaeology">المواقع الأثرية</a></li>
-                        <li><a href="#nature">الطبيعة</a></li>
-                        <li><a href="#">دليل السفر</a></li>
+                    <h5 class="mb-4">خدمات المركز</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white-50 text-decoration-none">الاصدارات</a></li>
+                        <li><a href="dashboard.html" target="_blank" class="text-white-50 text-decoration-none">لوحة التحكم</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">المساعد الافتراضي</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">الإحصائيات</a></li>
                     </ul>
                 </div>
                 
                 <div class="col-lg-3 col-md-4 mb-4">
-                    <h4 class="footer-title">اتصل بنا</h4>
-                    <ul class="footer-contact">
-                        <li>
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>طرابلس، ليبيا</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-phone"></i>
-                            <span>555-1234</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-envelope"></i>
-                            <span>info@tidclibya.ly</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-clock"></i>
-                            <span>الأحد - الخميس: 8 ص - 3 م</span>
-                        </li>
+                    <h5 class="mb-4">اتصل بنا</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i> طرابلس، ليبيا</li>
+                        <li class="mb-2"><i class="fas fa-phone me-2"></i> 555-1234</li>
+                        <li class="mb-2"><i class="fas fa-envelope me-2"></i> info@tidclibya.ly</li>
+                        <li><i class="fas fa-clock me-2"></i> الأحد - الخميس: 8 ص - 3 م</li>
                     </ul>
                 </div>
             </div>
             
-            <div class="footer-bottom text-center pt-4 border-top">
+            <hr class="bg-white-50">
+            
+            <div class="text-center pt-3">
                 <p class="mb-0">
                     © 2024 مركز المعلومات والتوثيق السياحي الليبي. جميع الحقوق محفوظة.
                     <a href="#" class="text-white ms-2">سياسة الخصوصية</a> | 
                     <a href="#" class="text-white">شروط الاستخدام</a>
                 </p>
                 <p class="mt-2">
-                    <small>الإصدار 2.0 | آخر تحديث: يناير 2024</small>
+                    <small>الإصدار 3.0 | آخر تحديث: يناير 2024</small>
                 </p>
             </div>
         </div>
@@ -452,11 +757,185 @@
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="js/main.js"></script>
     
     <script>
-        // Smooth Scrolling
+        // بيانات الإحصائيات
+        const statisticsData = {
+            tourists: 1030,
+            hotels: 377,
+            revenue: 3.2,
+            companies: 2432,
+            rooms: 18366,
+            chalets: 7236,
+            villages: 132,
+            guests: 696469
+        };
+        
+        // تهيئة العدادات
+        function initCounters() {
+            $('.stat-number').each(function() {
+                const $this = $(this);
+                const target = parseInt($this.attr('id').replace('stat', ''));
+                let value = 0;
+                
+                switch($this.attr('id')) {
+                    case 'statTourists': value = statisticsData.tourists; break;
+                    case 'statHotels': value = statisticsData.hotel; break;
+                    case 'statRevenue': value = statisticsData.revenue; break;
+                    case 'statCompanies': value = statisticsData.companies; break;
+                    case 'statRooms': value = statisticsData.rooms; break;
+                    case 'statChalets': value = statisticsData.chalets; break;
+                    case 'statVillages': value = statisticsData.villages; break;
+                    case 'statGuests': value = statisticsData.guests; break;
+                }
+                
+                $this.prop('Counter', 0).animate({
+                    Counter: value
+                }, {
+                    duration: 2000,
+                    easing: 'swing',
+                    step: function(now) {
+                        if ($this.attr('id') === 'statRevenue') {
+                            $this.text(now.toFixed(1));
+                        } else {
+                            $this.text(Math.ceil(now).toLocaleString('en-US'));
+                        }
+                    }
+                });
+            });
+        }
+        
+        // تهيئة الرسوم البيانية
+        function initCharts() {
+            // مخطط تطور السياح
+            const touristsCtx = document.getElementById('touristsChart').getContext('2d');
+            new Chart(touristsCtx, {
+                type: 'line',
+                data: {
+                    labels: ['2020', '2021', '2022', '2023', '2024'],
+                    datasets: [{
+                        label: 'عدد السياح (ألف)',
+                        data: [93, 124, 187, 257, 306],
+                        borderColor: '#1a4569',
+                        backgroundColor: 'rgba(26, 69, 105, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    }
+                }
+            });
+            
+            // مخطط توزيع الفنادق
+            const hotelsCtx = document.getElementById('hotelsChart').getContext('2d');
+            new Chart(hotelsCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['طرابلس', 'بنغازي', 'مصراتة', 'سبها', 'غات'],
+                    datasets: [{
+                        label: 'عدد الفنادق',
+                        data: [120, 85, 60, 38, 22],
+                        backgroundColor: [
+                            '#1a4569', '#2e86d8', '#d4af37', '#28a745', '#17a2b8'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+            
+            // مخطط الإيرادات
+            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+            new Chart(revenueCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['2019', '2020', '2021', '2022', '2023', '2024'],
+                    datasets: [{
+                        label: 'الإيرادات (مليار د.ل)',
+                        data: [2.1, 1.8, 2.2, 2.5, 2.8, 3.2],
+                        backgroundColor: '#d4af37',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    }
+                }
+            });
+        }
+        
+        // إدارة المساعد الافتراضي
+        function toggleAIChat() {
+            const chatWindow = document.getElementById('aiChatWindow');
+            chatWindow.style.display = chatWindow.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        function openAIChat() {
+            document.getElementById('aiChatWindow').style.display = 'block';
+        }
+        
+        function closeAIChat() {
+            document.getElementById('aiChatWindow').style.display = 'none';
+        }
+        
+        function sendAIMessage() {
+            const input = document.getElementById('aiChatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // إضافة رسالة المستخدم
+            const chatMessages = document.getElementById('aiChatMessages');
+            chatMessages.innerHTML += `
+                <div class="alert alert-secondary p-2 text-end">
+                    <strong>أنت:</strong> ${message}
+                </div>
+            `;
+            
+            // محاكاة رد المساعد
+            setTimeout(() => {
+                const responses = [
+                    "شكراً لسؤالك. يمكنني مساعدتك في معلومات عن السياحة في ليبيا.",
+                    "للحصول على إحصائيات مفصلة، يرجى زيارة لوحة التحكم.",
+                    "يمكنك الاطلاع على الدراسات السياحية من قسم الدراسات.",
+                    "للاستفسار عن فعاليات سياحية، يرجى زيارة صفحة الفعاليات.",
+                    "نحن هنا لمساعدتك. هل لديك استفسار محدد عن السياحة في ليبيا؟"
+                ];
+                
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                
+                chatMessages.innerHTML += `
+                    <div class="alert alert-info p-2">
+                        <strong><i class="fas fa-robot me-2"></i> المساعد:</strong> ${randomResponse}
+                    </div>
+                `;
+                
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 1000);
+            
+            input.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // تأثير التمرير السلس
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -473,19 +952,45 @@
             });
         });
         
-        // Navbar Scroll Effect
-        window.addEventListener('scroll', function() {
-            const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 100) {
-                navbar.classList.add('navbar-scrolled');
-            } else {
-                navbar.classList.remove('navbar-scrolled');
-            }
-        });
+        // تحديث الإحصائيات بشكل دوري
+        function updateStatistics() {
+            // محاكاة تحديث البيانات
+            statisticsData.tourists += Math.floor(Math.random() * 10);
+            statisticsData.hotels += Math.floor(Math.random() * 3);
+            statisticsData.guests += Math.floor(Math.random() * 100);
+            
+            // تحديث العدادات
+            initCounters();
+        }
         
-        // Initialize on load
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('TIDC Libya Tourism Portal Loaded');
+        // تهيئة الصفحة عند التحميل
+        $(document).ready(function() {
+            // بدء العدادات
+            initCounters();
+            
+            // بدء الرسوم البيانية
+            setTimeout(initCharts, 500);
+            
+            // تحديث الإحصائيات كل 30 ثانية
+            setInterval(updateStatistics, 30000);
+            
+            // تأثير شريط التنقل عند التمرير
+            $(window).scroll(function() {
+                if ($(window).scrollTop() > 50) {
+                    $('.navbar').addClass('shadow-lg');
+                } else {
+                    $('.navbar').removeClass('shadow-lg');
+                }
+            });
+            
+            // تمكين إرسال الرسالة بالضغط على Enter
+            $('#aiChatInput').keypress(function(e) {
+                if (e.which === 13) {
+                    sendAIMessage();
+                }
+            });
+            
+            console.log('تم تحميل الصفحة الرئيسية بنجاح!');
         });
     </script>
 </body>
