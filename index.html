@@ -13,8 +13,8 @@
     <!-- Open Graph -->
     <meta property="og:title" content="السياحة في ليبيا | بوابة الثقافة والتراث">
     <meta property="og:description" content="اكتشف جمال ليبيا: آثار رومانية، صحراء ساحرة، ثقافة غنية، وفعاليات سياحية">
-    <meta property="og:image" content="https://raw.githubusercontent.com/tidclibya/tidc.ly/main/tidclogo.png">
-    <meta property="og:url" content="https://tidc.ly">
+    <meta property="og:image" content="https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/logo/tidclogo.png">
+    <meta property="og:url" content="https://tidc.com.ly">
     <meta property="og:type" content="website">
     
     <!-- Twitter Cards -->
@@ -27,8 +27,8 @@
         "@context": "https://schema.org",
         "@type": "GovernmentOrganization",
         "name": "مركز المعلومات والتوثيق السياحي الليبي",
-        "url": "https://tidc.ly",
-        "logo": "https://raw.githubusercontent.com/tidclibya/tidc.ly/main/tidclogo.png",
+        "url": "https://tidc.com.ly",
+        "logo": "https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/logo/tidclogo.png",
         "description": "المركز الرسمي للمعلومات السياحية في ليبيا"
     }
     </script>
@@ -38,9 +38,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
     
     <style>
         :root {
@@ -104,7 +102,7 @@
         /* Hero Section */
         .hero-section {
             background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), 
-                        url('https://raw.githubusercontent.com/tidclibya/tidc.ly/main/12.jpg') no-repeat center center;
+                        url('https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/hero/hero-bg.jpg') no-repeat center center;
             background-size: cover;
             background-attachment: fixed;
             color: white;
@@ -231,8 +229,6 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
             height: 100%;
             background: white;
-            position: relative;
-            z-index: 1;
         }
         
         .service-card:hover {
@@ -246,18 +242,78 @@
             margin-bottom: 20px;
         }
         
-        /* Charts Section */
-        .charts-section {
+        /* Gallery Section */
+        .gallery-section {
             padding: 80px 0;
             background: #f8f9fa;
         }
         
-        .chart-container {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            height: 250px;
+        }
+        
+        .gallery-item img {
+            width: 100%;
             height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+        
+        .gallery-overlay i {
+            color: white;
+            font-size: 2rem;
+        }
+        
+        /* Gallery Filters */
+        .gallery-filters {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 8px 20px;
+            border: 2px solid var(--primary-color);
+            background: white;
+            color: var(--primary-color);
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary-color);
+            color: white;
         }
         
         /* AI Assistant */
@@ -320,6 +376,10 @@
                 padding: 10px 20px;
                 font-size: 0.9rem;
             }
+            
+            .gallery-item {
+                height: 200px;
+            }
         }
     </style>
 </head>
@@ -328,7 +388,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
             <a class="navbar-brand" href="#">
-                <img src="https://raw.githubusercontent.com/tidclibya/tidc.ly/main/tidclogo.png" alt="شعار المركز" class="logo me-2">
+                <img src="https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/logo/tidclogo.png" alt="شعار المركز" class="logo me-2">
                 TIDCLIBYA
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -379,6 +439,18 @@
                             <li><a class="dropdown-item" href="#">الخرائط السياحية</a></li>
                         </ul>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="analyticsDropdown" data-bs-toggle="dropdown">
+                            التحليلات البيانية
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="dashboard.html#indicators" target="_blank">المؤشرات الرئيسية</a></li>
+                            <li><a class="dropdown-item" href="dashboard.html#analysis" target="_blank">التحليلات البيانية</a></li>
+                            <li><a class="dropdown-item" href="dashboard.html#comparison" target="_blank">المقارنات</a></li>
+                            <li><a class="dropdown-item" href="dashboard.html#historical" target="_blank">البيانات التاريخية</a></li>
+                            <li><a class="dropdown-item" href="dashboard.html#forecast" target="_blank">التنبؤات</a></li>
+                        </ul>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="dashboard.html" target="_blank">
                             لوحة التحكم
@@ -387,11 +459,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#ai-assistant" id="aiAssistantBtn">
                             المساعد الافتراضي
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#statistics">
-                            الإحصائيات
                         </a>
                     </li>
                 </ul>
@@ -422,11 +489,11 @@
                 <a href="#services" class="btn btn-primary btn-lg me-3">
                     <i class="fas fa-cogs me-2"></i> خدماتنا
                 </a>
-                <a href="dashboard.html" target="_blank" class="btn btn-warning btn-lg me-3">
-                    <i class="fas fa-chart-line me-2"></i> لوحة التحكم
+                <a href="#gallery" class="btn btn-warning btn-lg me-3">
+                    <i class="fas fa-images me-2"></i> معرض الصور
                 </a>
-                <a href="#statistics" class="btn btn-outline-light btn-lg">
-                    <i class="fas fa-chart-bar me-2"></i> الإحصائيات الحية
+                <a href="dashboard.html" target="_blank" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-chart-line me-2"></i> لوحة التحكم
                 </a>
             </div>
         </div>
@@ -445,9 +512,9 @@
                         <div class="stat-icon">
                             <i class="fas fa-users"></i>
                         </div>
-                        <div class="stat-number" id="statTourists">0</div>
+                        <div class="stat-number" id="statTourists">1,030</div>
                         <div class="stat-title">السياح الوافدين</div>
-                        <div class="stat-change positive" id="statTouristsChange">+12%</div>
+                        <div class="stat-change positive">+12% عن العام الماضي</div>
                     </div>
                 </div>
                 
@@ -456,9 +523,9 @@
                         <div class="stat-icon">
                             <i class="fas fa-hotel"></i>
                         </div>
-                        <div class="stat-number" id="statHotels">0</div>
+                        <div class="stat-number" id="statHotels">377</div>
                         <div class="stat-title">الفنادق</div>
-                        <div class="stat-change positive" id="statHotelsChange">+8%</div>
+                        <div class="stat-change positive">+8% عن 2024</div>
                     </div>
                 </div>
                 
@@ -467,9 +534,9 @@
                         <div class="stat-icon">
                             <i class="fas fa-money-bill-wave"></i>
                         </div>
-                        <div class="stat-number" id="statRevenue">0</div>
+                        <div class="stat-number" id="statRevenue">3.2</div>
                         <div class="stat-title">الإيرادات (مليار د.ل)</div>
-                        <div class="stat-change positive" id="statRevenueChange">+24%</div>
+                        <div class="stat-change positive">+24% عن 2024</div>
                     </div>
                 </div>
                 
@@ -478,54 +545,9 @@
                         <div class="stat-icon">
                             <i class="fas fa-briefcase"></i>
                         </div>
-                        <div class="stat-number" id="statCompanies">0</div>
+                        <div class="stat-number" id="statCompanies">2,432</div>
                         <div class="stat-title">الشركات السياحية</div>
-                        <div class="stat-change positive" id="statCompaniesChange">+15%</div>
-                    </div>
-                </div>
-                
-                <!-- Row 2 -->
-                <div class="col-md-3 col-6">
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-bed"></i>
-                        </div>
-                        <div class="stat-number" id="statRooms">0</div>
-                        <div class="stat-title">الغرف الفندقية</div>
-                        <div class="stat-change positive">+5%</div>
-                    </div>
-                </div>
-                
-                <div class="col-md-3 col-6">
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-home"></i>
-                        </div>
-                        <div class="stat-number" id="statChalets">0</div>
-                        <div class="stat-title">الشاليهات</div>
-                        <div class="stat-change positive">+12%</div>
-                    </div>
-                </div>
-                
-                <div class="col-md-3 col-6">
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-umbrella-beach"></i>
-                        </div>
-                        <div class="stat-number" id="statVillages">0</div>
-                        <div class="stat-title">القرى السياحية</div>
-                        <div class="stat-change positive">+10%</div>
-                    </div>
-                </div>
-                
-                <div class="col-md-3 col-6">
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-user-friends"></i>
-                        </div>
-                        <div class="stat-number" id="statGuests">0</div>
-                        <div class="stat-title">نزلاء الفنادق</div>
-                        <div class="stat-change positive">+14%</div>
+                        <div class="stat-change positive">+15% عن 2024</div>
                     </div>
                 </div>
             </div>
@@ -538,33 +560,29 @@
         </div>
     </section>
 
-    <!-- Charts Section -->
-    <section class="charts-section">
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery-section">
         <div class="container">
-            <h2 class="section-title">تحليلات بيانية</h2>
-            <p class="text-center text-muted mb-5">تحليل مرئي لأهم مؤشرات القطاع السياحي</p>
+            <h2 class="section-title">معرض الصور السياحية</h2>
+            <p class="text-center text-muted mb-5">استكشف جمال ليبيا من خلال صورنا المختارة من مستودع GitHub</p>
             
-            <div class="row g-4">
-                <div class="col-md-6">
-                    <div class="chart-container">
-                        <h4 class="mb-4"><i class="fas fa-chart-line me-2"></i> تطور أعداد السياح</h4>
-                        <canvas id="touristsChart"></canvas>
-                    </div>
-                </div>
-                
-                <div class="col-md-6">
-                    <div class="chart-container">
-                        <h4 class="mb-4"><i class="fas fa-hotel me-2"></i> توزيع الفنادق حسب المدن</h4>
-                        <canvas id="hotelsChart"></canvas>
-                    </div>
-                </div>
-                
-                <div class="col-md-12">
-                    <div class="chart-container">
-                        <h4 class="mb-4"><i class="fas fa-chart-bar me-2"></i> مقارنة الإيرادات السنوية</h4>
-                        <canvas id="revenueChart"></canvas>
-                    </div>
-                </div>
+            <!-- Gallery Filters -->
+            <div class="gallery-filters">
+                <button class="filter-btn active" data-filter="all">الكل</button>
+                <button class="filter-btn" data-filter="heritage">التراث</button>
+                <button class="filter-btn" data-filter="archaeology">الآثار</button>
+                <button class="filter-btn" data-filter="nature">الطبيعة</button>
+                <button class="filter-btn" data-filter="cities">المدن</button>
+            </div>
+            
+            <div class="row" id="galleryContainer">
+                <!-- سيتم تعبئة الصور تلقائياً من JavaScript -->
+            </div>
+            
+            <div class="text-center mt-4">
+                <a href="local-photos.html" class="btn btn-primary btn-lg">
+                    <i class="fas fa-images me-2"></i> عرض المزيد من الصور
+                </a>
             </div>
         </div>
     </section>
@@ -632,17 +650,17 @@
                     </div>
                 </div>
                 
-                <!-- لوحة التحكم -->
+                <!-- التحليلات البيانية -->
                 <div class="col-md-4">
                     <div class="service-card card text-center p-4">
                         <div class="service-icon">
-                            <i class="fas fa-chart-line"></i>
+                            <i class="fas fa-chart-bar"></i>
                         </div>
-                        <h3 class="card-title">لوحة التحكم</h3>
+                        <h3 class="card-title">التحليلات البيانية</h3>
                         <p class="card-text">
-                            لوحة تحكم تفاعلية تعرض أحدث الإحصاءات والمؤشرات السياحية مع إمكانيات تحليل متقدمة.
+                            تحليلات بيانية متقدمة تعرض أحدث المؤشرات والإحصاءات السياحية بشكل مرئي.
                         </p>
-                        <a href="dashboard.html" target="_blank" class="btn btn-outline-primary">الدخول للوحة</a>
+                        <a href="#analyticsDropdown" class="btn btn-outline-primary">عرض التحليلات</a>
                     </div>
                 </div>
                 
@@ -675,12 +693,21 @@
         <div id="aiChatMessages" class="mb-3" style="height: 300px; overflow-y: auto; font-size: 0.9rem;">
             <div class="alert alert-info p-2">
                 <i class="fas fa-info-circle me-2"></i>
-                مرحباً! كيف يمكنني مساعدتك اليوم؟
+                مرحباً! أنا المساعد الافتراضي لمركز المعلومات السياحي. كيف يمكنني مساعدتك اليوم؟
+            </div>
+            <div class="alert alert-light p-2">
+                يمكنني مساعدتك في:
+                <ul class="mb-0">
+                    <li>معلومات عن السياحة في ليبيا</li>
+                    <li>أحدث الإحصائيات والمؤشرات</li>
+                    <li>المواقع الأثرية والسياحية</li>
+                    <li>الخدمات المقدمة من المركز</li>
+                </ul>
             </div>
         </div>
         
         <div class="input-group">
-            <input type="text" id="aiChatInput" class="form-control" placeholder="اكتب سؤالك هنا...">
+            <input type="text" id="aiChatInput" class="form-control" placeholder="اكتب سؤالك هنا..." onkeypress="if(event.key === 'Enter') sendAIMessage()">
             <button class="btn btn-primary" onclick="sendAIMessage()">
                 <i class="fas fa-paper-plane"></i>
             </button>
@@ -689,7 +716,7 @@
 
     <!-- AI Assistant Button -->
     <div class="ai-assistant" onclick="toggleAIChat()">
-        <i class="fas fa-robot ai-icon"></i>
+        <i class="fas fa-robot"></i>
         <span>المساعد الافتراضي</span>
     </div>
 
@@ -722,9 +749,9 @@
                     <h5 class="mb-4">خدمات المركز</h5>
                     <ul class="list-unstyled">
                         <li><a href="#" class="text-white-50 text-decoration-none">الاصدارات</a></li>
+                        <li><a href="#analyticsDropdown" class="text-white-50 text-decoration-none">التحليلات البيانية</a></li>
                         <li><a href="dashboard.html" target="_blank" class="text-white-50 text-decoration-none">لوحة التحكم</a></li>
-                        <li><a href="#" class="text-white-50 text-decoration-none">المساعد الافتراضي</a></li>
-                        <li><a href="#" class="text-white-50 text-decoration-none">الإحصائيات</a></li>
+                        <li><a href="#ai-assistant" class="text-white-50 text-decoration-none">المساعد الافتراضي</a></li>
                     </ul>
                 </div>
                 
@@ -733,7 +760,7 @@
                     <ul class="list-unstyled">
                         <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i> طرابلس، ليبيا</li>
                         <li class="mb-2"><i class="fas fa-phone me-2"></i> 555-1234</li>
-                        <li class="mb-2"><i class="fas fa-envelope me-2"></i> info@tidclibya.ly</li>
+                        <li class="mb-2"><i class="fas fa-envelope me-2"></i> info@tidc.com.ly</li>
                         <li><i class="fas fa-clock me-2"></i> الأحد - الخميس: 8 ص - 3 م</li>
                     </ul>
                 </div>
@@ -743,12 +770,12 @@
             
             <div class="text-center pt-3">
                 <p class="mb-0">
-                    © 2024 مركز المعلومات والتوثيق السياحي الليبي. جميع الحقوق محفوظة.
+                    © <span id="currentYear"></span> مركز المعلومات والتوثيق السياحي الليبي. جميع الحقوق محفوظة.
                     <a href="#" class="text-white ms-2">سياسة الخصوصية</a> | 
                     <a href="#" class="text-white">شروط الاستخدام</a>
                 </p>
                 <p class="mt-2">
-                    <small>الإصدار 3.0 | آخر تحديث: يناير 2024</small>
+                    <small>الإصدار 3.1 | جميع الصور من فرع images في GitHub</small>
                 </p>
             </div>
         </div>
@@ -757,8 +784,84 @@
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
     
     <script>
+        // تهيئة Lightbox
+        lightbox.option({
+            'resizeDuration': 200,
+            'wrapAround': true,
+            'albumLabel': 'صورة %1 من %2',
+            'fadeDuration': 300
+        });
+        
+        // بيانات الصور من فرع images في GitHub
+        const galleryImages = [
+            {
+                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/heritage/badr-taib.webp',
+                thumbnail: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/heritage/thumbnails/badr-taib-thumb.webp',
+                title: 'بدر طيب - التراث الليبي',
+                category: 'heritage',
+                description: 'صورة تراثية من التراث الليبي الأصيل'
+            },
+            {
+                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/culture/casa-cultura.jpg',
+                thumbnail: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/culture/thumbnails/casa-cultura-thumb.jpg',
+                title: 'دار الثقافة',
+                category: 'heritage',
+                description: 'مركز ثقافي يعكس التراث المعماري'
+            },
+            {
+                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/archaeology/dji-0916.jpg',
+                thumbnail: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/archaeology/thumbnails/dji-0916-thumb.jpg',
+                title: 'المناظر الجوية',
+                category: 'archaeology',
+                description: 'منظر جوي للمواقع الأثرية'
+            },
+            {
+                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/archaeology/palace-haj-44.jpg',
+                thumbnail: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/archaeology/thumbnails/palace-haj-44-thumb.jpg',
+                title: 'قصر الحاج',
+                category: 'archaeology',
+                description: 'قصر تاريخي يعود للقرن الماضي'
+            },
+            {
+                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/nature/casa-campo.jpg',
+                thumbnail: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/nature/thumbnails/casa-campo-thumb.jpg',
+                title: 'كاسا دي كامبو',
+                category: 'nature',
+                description: 'منتجع طبيعي في الهواء الطلق'
+            },
+            {
+                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/cities/circus-lario.jpg',
+                thumbnail: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/cities/thumbnails/circus-lario-thumb.jpg',
+                title: 'سيرك لاريو',
+                category: 'cities',
+                description: 'منطقة ترفيهية في قلب المدينة'
+            },
+            {
+                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/archaeology/qabr-oun.jpg',
+                thumbnail: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/archaeology/thumbnails/qabr-oun-thumb.jpg',
+                title: 'قبرعون',
+                category: 'archaeology',
+                description: 'موقع أثري تاريخي'
+            },
+            {
+                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/heritage/mtakhndosh-1.jpg',
+                thumbnail: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/heritage/thumbnails/mtakhndosh-1-thumb.jpg',
+                title: 'متخندوش',
+                category: 'heritage',
+                description: 'منطقة تراثية تقليدية'
+            },
+            {
+                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/nature/nature-1.jpg',
+                thumbnail: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/nature/thumbnails/nature-1-thumb.jpg',
+                title: 'الطبيعة الليبية',
+                category: 'nature',
+                description: 'مناظر طبيعية خلابة'
+            }
+        ];
+        
         // بيانات الإحصائيات
         const statisticsData = {
             tourists: 1030,
@@ -771,16 +874,66 @@
             guests: 696469
         };
         
-        // تهيئة العدادات
-        function initCounters() {
+        // تحميل معرض الصور
+        function loadGallery() {
+            const galleryContainer = document.getElementById('galleryContainer');
+            galleryContainer.innerHTML = '';
+            
+            galleryImages.forEach((image, index) => {
+                const col = document.createElement('div');
+                col.className = 'col-md-4 col-6 mb-4 gallery-item';
+                col.setAttribute('data-category', image.category);
+                
+                col.innerHTML = `
+                    <a href="${image.url}" data-lightbox="gallery" data-title="${image.title} - ${image.description}">
+                        <img src="${image.thumbnail || image.url}" alt="${image.title}" 
+                             onerror="this.src='${image.url}'">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-search-plus"></i>
+                        </div>
+                    </a>
+                `;
+                
+                galleryContainer.appendChild(col);
+            });
+        }
+        
+        // فلترة الصور
+        function initGalleryFilters() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // إزالة النشط من جميع الأزرار
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    
+                    // إضافة النشط للزر الحالي
+                    this.classList.add('active');
+                    
+                    const filter = this.getAttribute('data-filter');
+                    
+                    // تصفية العناصر
+                    galleryItems.forEach(item => {
+                        if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        }
+        
+        // تحديث العدادات بشكل متحرك
+        function animateCounters() {
             $('.stat-number').each(function() {
                 const $this = $(this);
-                const target = parseInt($this.attr('id').replace('stat', ''));
                 let value = 0;
                 
                 switch($this.attr('id')) {
                     case 'statTourists': value = statisticsData.tourists; break;
-                    case 'statHotels': value = statisticsData.hotel; break;
+                    case 'statHotels': value = statisticsData.hotels; break;
                     case 'statRevenue': value = statisticsData.revenue; break;
                     case 'statCompanies': value = statisticsData.companies; break;
                     case 'statRooms': value = statisticsData.rooms; break;
@@ -797,88 +950,13 @@
                     step: function(now) {
                         if ($this.attr('id') === 'statRevenue') {
                             $this.text(now.toFixed(1));
-                        } else {
+                        } else if ($this.attr('id') === 'statGuests') {
                             $this.text(Math.ceil(now).toLocaleString('en-US'));
+                        } else {
+                            $this.text(Math.ceil(now));
                         }
                     }
                 });
-            });
-        }
-        
-        // تهيئة الرسوم البيانية
-        function initCharts() {
-            // مخطط تطور السياح
-            const touristsCtx = document.getElementById('touristsChart').getContext('2d');
-            new Chart(touristsCtx, {
-                type: 'line',
-                data: {
-                    labels: ['2020', '2021', '2022', '2023', '2024'],
-                    datasets: [{
-                        label: 'عدد السياح (ألف)',
-                        data: [93, 124, 187, 257, 306],
-                        borderColor: '#1a4569',
-                        backgroundColor: 'rgba(26, 69, 105, 0.1)',
-                        borderWidth: 2,
-                        tension: 0.3,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        }
-                    }
-                }
-            });
-            
-            // مخطط توزيع الفنادق
-            const hotelsCtx = document.getElementById('hotelsChart').getContext('2d');
-            new Chart(hotelsCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['طرابلس', 'بنغازي', 'مصراتة', 'سبها', 'غات'],
-                    datasets: [{
-                        label: 'عدد الفنادق',
-                        data: [120, 85, 60, 38, 22],
-                        backgroundColor: [
-                            '#1a4569', '#2e86d8', '#d4af37', '#28a745', '#17a2b8'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    }
-                }
-            });
-            
-            // مخطط الإيرادات
-            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
-            new Chart(revenueCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['2019', '2020', '2021', '2022', '2023', '2024'],
-                    datasets: [{
-                        label: 'الإيرادات (مليار د.ل)',
-                        data: [2.1, 1.8, 2.2, 2.5, 2.8, 3.2],
-                        backgroundColor: '#d4af37',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        }
-                    }
-                }
             });
         }
         
@@ -910,21 +988,41 @@
                 </div>
             `;
             
-            // محاكاة رد المساعد
+            // إعداد ردود الذكاء الاصطناعي
+            const responses = {
+                'مرحبا': 'مرحباً بك! كيف يمكنني مساعدتك اليوم؟',
+                'السلام عليكم': 'وعليكم السلام ورحمة الله وبركاته. أهلاً بك في مركز المعلومات السياحي.',
+                'احصائيات': `أحدث الإحصائيات:<br>
+                             - السياح الوافدين: ${statisticsData.tourists} ألف<br>
+                             - الفنادق: ${statisticsData.hotels} فندق<br>
+                             - الإيرادات: ${statisticsData.revenue} مليار د.ل<br>
+                             للتفاصيل، زر <a href="dashboard.html" target="_blank">لوحة التحكم</a>.`,
+                'فنادق': `معلومات الفنادق:<br>
+                         - عدد الفنادق: ${statisticsData.hotels}<br>
+                         - عدد الغرف: ${statisticsData.rooms}<br>
+                         - عدد القرى السياحية: ${statisticsData.villages}<br>
+                         - عدد الشاليهات: ${statisticsData.chalets}`,
+                'صور': 'يمكنك زيارة معرض الصور لمشاهدة الصور السياحية من ليبيا.',
+                'اثار': 'يوجد في ليبيا العديد من المواقع الأثرية مثل لبتيس ماجنا، صبراتة، وغيرها.',
+                'خدمات': 'الخدمات المتاحة:<br>1. الدراسات السياحية<br>2. الخدمات الإلكترونية<br>3. المكتبة الإلكترونية<br>4. التحليلات البيانية<br>5. المساعد الافتراضي',
+                'مساعد': 'أنا المساعد الافتراضي لمركز المعلومات السياحي. يمكنني الإجابة على أسئلتك حول السياحة في ليبيا.'
+            };
+            
+            // البحث عن رد مناسب
+            let response = 'شكراً لسؤالك. يمكنني مساعدتك في معلومات عن:<br>1. الإحصائيات السياحية<br>2. الفنادق والمنشآت<br>3. المواقع الأثرية<br>4. خدمات المركز<br>يرجى توضيح سؤالك أكثر.';
+            
+            for (const [key, value] of Object.entries(responses)) {
+                if (message.toLowerCase().includes(key.toLowerCase())) {
+                    response = value;
+                    break;
+                }
+            }
+            
+            // محاكاة وقت المعالجة
             setTimeout(() => {
-                const responses = [
-                    "شكراً لسؤالك. يمكنني مساعدتك في معلومات عن السياحة في ليبيا.",
-                    "للحصول على إحصائيات مفصلة، يرجى زيارة لوحة التحكم.",
-                    "يمكنك الاطلاع على الدراسات السياحية من قسم الدراسات.",
-                    "للاستفسار عن فعاليات سياحية، يرجى زيارة صفحة الفعاليات.",
-                    "نحن هنا لمساعدتك. هل لديك استفسار محدد عن السياحة في ليبيا؟"
-                ];
-                
-                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-                
                 chatMessages.innerHTML += `
                     <div class="alert alert-info p-2">
-                        <strong><i class="fas fa-robot me-2"></i> المساعد:</strong> ${randomResponse}
+                        <strong><i class="fas fa-robot me-2"></i> المساعد:</strong> ${response}
                     </div>
                 `;
                 
@@ -938,41 +1036,42 @@
         // تأثير التمرير السلس
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                if(targetId === '#') return;
+                if (this.getAttribute('href') === '#') return;
                 
-                const targetElement = document.querySelector(targetId);
-                if(targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
+                const targetId = this.getAttribute('href');
+                if (targetId.startsWith('#')) {
+                    e.preventDefault();
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
                 }
             });
         });
         
-        // تحديث الإحصائيات بشكل دوري
-        function updateStatistics() {
-            // محاكاة تحديث البيانات
-            statisticsData.tourists += Math.floor(Math.random() * 10);
-            statisticsData.hotels += Math.floor(Math.random() * 3);
-            statisticsData.guests += Math.floor(Math.random() * 100);
-            
-            // تحديث العدادات
-            initCounters();
+        // تحديث السنة الحالية
+        function updateCurrentYear() {
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
         }
         
         // تهيئة الصفحة عند التحميل
         $(document).ready(function() {
-            // بدء العدادات
-            initCounters();
+            console.log('جاري تهيئة صفحة المركز السياحي...');
             
-            // بدء الرسوم البيانية
-            setTimeout(initCharts, 500);
+            // تحميل المعرض
+            loadGallery();
             
-            // تحديث الإحصائيات كل 30 ثانية
-            setInterval(updateStatistics, 30000);
+            // تهيئة الفلاتر
+            initGalleryFilters();
+            
+            // بدء العدادات المتحركة
+            setTimeout(animateCounters, 500);
+            
+            // تحديث السنة
+            updateCurrentYear();
             
             // تأثير شريط التنقل عند التمرير
             $(window).scroll(function() {
@@ -983,10 +1082,13 @@
                 }
             });
             
-            // تمكين إرسال الرسالة بالضغط على Enter
-            $('#aiChatInput').keypress(function(e) {
-                if (e.which === 13) {
-                    sendAIMessage();
+            // إغلاق نافذة الدردشة عند النقر خارجها
+            $(document).click(function(event) {
+                const aiChat = $('#aiChatWindow');
+                const aiButton = $('.ai-assistant');
+                if (!aiChat.is(event.target) && aiChat.has(event.target).length === 0 && 
+                    !aiButton.is(event.target) && aiButton.has(event.target).length === 0) {
+                    aiChat.hide();
                 }
             });
             
