@@ -1,0 +1,9 @@
+- index.html (الموقع الرئيسي مع جميع التحسينات)
+- local-photos.html (معرض الصور)
+- events.html (صفحة الفعاليات)
+- dashboard.html (لوحة التحكم)
+- robots.txt
+- sitemap.xml
+- /js/events.js
+- /js/map-data.js
+- /css/style.css
