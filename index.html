@@ -13,7 +13,7 @@
     <!-- Open Graph -->
     <meta property="og:title" content="السياحة في ليبيا | بوابة الثقافة والتراث">
     <meta property="og:description" content="اكتشف جمال ليبيا: آثار رومانية، صحراء ساحرة، ثقافة غنية، وفعاليات سياحية">
-    <meta property="og:image" content="https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/logo/tidclogo.png">
+    <meta property="og:image" content="https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/DJI_0916.JPG">
     <meta property="og:url" content="https://tidc.com.ly">
     <meta property="og:type" content="website">
     
@@ -28,7 +28,7 @@
         "@type": "GovernmentOrganization",
         "name": "مركز المعلومات والتوثيق السياحي الليبي",
         "url": "https://tidc.com.ly",
-        "logo": "https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/logo/tidclogo.png",
+        "logo": "https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/tidclogo.png",
         "description": "المركز الرسمي للمعلومات السياحية في ليبيا"
     }
     </script>
@@ -102,7 +102,7 @@
         /* Hero Section */
         .hero-section {
             background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), 
-                        url('https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/hero/hero-bg.jpg') no-repeat center center;
+                        url('https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/DJI_0916.JPG') no-repeat center center;
             background-size: cover;
             background-attachment: fixed;
             color: white;
@@ -254,6 +254,7 @@
             border-radius: 10px;
             margin-bottom: 20px;
             height: 250px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
         .gallery-item img {
@@ -346,6 +347,59 @@
             100% { box-shadow: 0 8px 25px rgba(26, 69, 105, 0.4); }
         }
         
+        /* AI Chat Window */
+        .ai-chat-window {
+            position: fixed;
+            bottom: 90px;
+            left: 30px;
+            width: 350px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            z-index: 1050;
+            display: none;
+            overflow: hidden;
+        }
+        
+        .chat-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 15px;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chat-body {
+            height: 300px;
+            overflow-y: auto;
+            padding: 15px;
+        }
+        
+        .message {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+        
+        .user-message {
+            background: #e3f2fd;
+            margin-left: auto;
+        }
+        
+        .ai-message {
+            background: #f5f5f5;
+            margin-right: auto;
+        }
+        
+        .chat-input {
+            border-top: 1px solid #eee;
+            padding: 15px;
+        }
+        
         /* Responsive */
         @media (max-width: 992px) {
             .hero-title {
@@ -377,8 +431,28 @@
                 font-size: 0.9rem;
             }
             
+            .ai-chat-window {
+                width: 300px;
+                left: 20px;
+            }
+            
             .gallery-item {
                 height: 200px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 1.8rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            
+            .ai-chat-window {
+                width: calc(100% - 40px);
+                left: 20px;
             }
         }
     </style>
@@ -388,7 +462,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
             <a class="navbar-brand" href="#">
-                <img src="https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/logo/tidclogo.png" alt="شعار المركز" class="logo me-2">
+                <img src="https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/tidclogo.png" alt="شعار المركز" class="logo me-2">
                 TIDCLIBYA
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -457,8 +531,8 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#ai-assistant" id="aiAssistantBtn">
-                            المساعد الافتراضي
+                        <a class="nav-link" href="gallery.html">
+                            معرض الصور الكامل
                         </a>
                     </li>
                 </ul>
@@ -512,9 +586,9 @@
                         <div class="stat-icon">
                             <i class="fas fa-users"></i>
                         </div>
-                        <div class="stat-number" id="statTourists">1,030</div>
+                        <div class="stat-number" id="statTourists">0</div>
                         <div class="stat-title">السياح الوافدين</div>
-                        <div class="stat-change positive">+12% عن العام الماضي</div>
+                        <div class="stat-change positive" id="statTouristsChange">+12% عن العام الماضي</div>
                     </div>
                 </div>
                 
@@ -523,9 +597,9 @@
                         <div class="stat-icon">
                             <i class="fas fa-hotel"></i>
                         </div>
-                        <div class="stat-number" id="statHotels">377</div>
+                        <div class="stat-number" id="statHotels">0</div>
                         <div class="stat-title">الفنادق</div>
-                        <div class="stat-change positive">+8% عن 2024</div>
+                        <div class="stat-change positive" id="statHotelsChange">+8% عن 2024</div>
                     </div>
                 </div>
                 
@@ -534,9 +608,9 @@
                         <div class="stat-icon">
                             <i class="fas fa-money-bill-wave"></i>
                         </div>
-                        <div class="stat-number" id="statRevenue">3.2</div>
+                        <div class="stat-number" id="statRevenue">0</div>
                         <div class="stat-title">الإيرادات (مليار د.ل)</div>
-                        <div class="stat-change positive">+24% عن 2024</div>
+                        <div class="stat-change positive" id="statRevenueChange">+24% عن 2024</div>
                     </div>
                 </div>
                 
@@ -545,9 +619,54 @@
                         <div class="stat-icon">
                             <i class="fas fa-briefcase"></i>
                         </div>
-                        <div class="stat-number" id="statCompanies">2,432</div>
+                        <div class="stat-number" id="statCompanies">0</div>
                         <div class="stat-title">الشركات السياحية</div>
-                        <div class="stat-change positive">+15% عن 2024</div>
+                        <div class="stat-change positive" id="statCompaniesChange">+15% عن 2024</div>
+                    </div>
+                </div>
+                
+                <!-- Row 2 -->
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-bed"></i>
+                        </div>
+                        <div class="stat-number" id="statRooms">0</div>
+                        <div class="stat-title">الغرف الفندقية</div>
+                        <div class="stat-change positive">+5% عن العام الماضي</div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div class="stat-number" id="statChalets">0</div>
+                        <div class="stat-title">الشاليهات</div>
+                        <div class="stat-change positive">+12% عن العام الماضي</div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-umbrella-beach"></i>
+                        </div>
+                        <div class="stat-number" id="statVillages">0</div>
+                        <div class="stat-title">القرى السياحية</div>
+                        <div class="stat-change positive">+10% عن العام الماضي</div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-user-friends"></i>
+                        </div>
+                        <div class="stat-number" id="statGuests">0</div>
+                        <div class="stat-title">نزلاء الفنادق</div>
+                        <div class="stat-change positive">+14% عن العام الماضي</div>
                     </div>
                 </div>
             </div>
@@ -564,24 +683,25 @@
     <section id="gallery" class="gallery-section">
         <div class="container">
             <h2 class="section-title">معرض الصور السياحية</h2>
-            <p class="text-center text-muted mb-5">استكشف جمال ليبيا من خلال صورنا المختارة من مستودع GitHub</p>
+            <p class="text-center text-muted mb-5">استكشف جمال ليبيا من خلال 44 صورة متنوعة</p>
             
             <!-- Gallery Filters -->
             <div class="gallery-filters">
                 <button class="filter-btn active" data-filter="all">الكل</button>
-                <button class="filter-btn" data-filter="heritage">التراث</button>
-                <button class="filter-btn" data-filter="archaeology">الآثار</button>
                 <button class="filter-btn" data-filter="nature">الطبيعة</button>
+                <button class="filter-btn" data-filter="archaeology">الآثار</button>
+                <button class="filter-btn" data-filter="heritage">التراث</button>
                 <button class="filter-btn" data-filter="cities">المدن</button>
+                <button class="filter-btn" data-filter="aerial">جوي</button>
             </div>
             
             <div class="row" id="galleryContainer">
-                <!-- سيتم تعبئة الصور تلقائياً من JavaScript -->
+                <!-- الصور ستحمل تلقائياً من JavaScript -->
             </div>
             
             <div class="text-center mt-4">
-                <a href="local-photos.html" class="btn btn-primary btn-lg">
-                    <i class="fas fa-images me-2"></i> عرض المزيد من الصور
+                <a href="gallery.html" class="btn btn-primary btn-lg">
+                    <i class="fas fa-images me-2"></i> عرض جميع الصور (44 صورة)
                 </a>
             </div>
         </div>
@@ -664,17 +784,17 @@
                     </div>
                 </div>
                 
-                <!-- المساعد الافتراضي -->
+                <!-- معرض الصور -->
                 <div class="col-md-4">
                     <div class="service-card card text-center p-4">
                         <div class="service-icon">
-                            <i class="fas fa-robot"></i>
+                            <i class="fas fa-images"></i>
                         </div>
-                        <h3 class="card-title">المساعد الافتراضي</h3>
+                        <h3 class="card-title">معرض الصور</h3>
                         <p class="card-text">
-                            مساعد ذكي مدعوم بالذكاء الاصطناعي للإجابة على الاستفسارات وتقديم المعلومات السياحية.
+                            معرض شامل يضم 44 صورة متنوعة تعرض جمال الطبيعة والآثار والتراث الليبي.
                         </p>
-                        <button class="btn btn-outline-primary" onclick="openAIChat()">تحدث مع المساعد</button>
+                        <a href="gallery.html" class="btn btn-outline-primary">زيارة المعرض</a>
                     </div>
                 </div>
             </div>
@@ -682,35 +802,28 @@
     </section>
 
     <!-- AI Assistant Chat Window -->
-    <div id="aiChatWindow" class="position-fixed bottom-0 start-0 m-4 p-3 bg-white rounded shadow-lg" style="width: 350px; z-index: 1050; display: none;">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="mb-0"><i class="fas fa-robot text-primary me-2"></i> المساعد الافتراضي</h5>
-            <button class="btn btn-sm btn-outline-secondary" onclick="closeAIChat()">
+    <div class="ai-chat-window" id="aiChatWindow">
+        <div class="chat-header">
+            <div>
+                <i class="fas fa-robot me-2"></i>
+                <strong>المساعد الافتراضي</strong>
+            </div>
+            <button class="btn btn-sm btn-light" onclick="closeAIChat()">
                 <i class="fas fa-times"></i>
             </button>
         </div>
-        
-        <div id="aiChatMessages" class="mb-3" style="height: 300px; overflow-y: auto; font-size: 0.9rem;">
-            <div class="alert alert-info p-2">
-                <i class="fas fa-info-circle me-2"></i>
-                مرحباً! أنا المساعد الافتراضي لمركز المعلومات السياحي. كيف يمكنني مساعدتك اليوم؟
-            </div>
-            <div class="alert alert-light p-2">
-                يمكنني مساعدتك في:
-                <ul class="mb-0">
-                    <li>معلومات عن السياحة في ليبيا</li>
-                    <li>أحدث الإحصائيات والمؤشرات</li>
-                    <li>المواقع الأثرية والسياحية</li>
-                    <li>الخدمات المقدمة من المركز</li>
-                </ul>
+        <div class="chat-body" id="aiChatBody">
+            <div class="message ai-message">
+                <strong>المساعد:</strong> مرحباً! أنا المساعد الافتراضي لمركز المعلومات السياحي. كيف يمكنني مساعدتك اليوم؟
             </div>
         </div>
-        
-        <div class="input-group">
-            <input type="text" id="aiChatInput" class="form-control" placeholder="اكتب سؤالك هنا..." onkeypress="if(event.key === 'Enter') sendAIMessage()">
-            <button class="btn btn-primary" onclick="sendAIMessage()">
-                <i class="fas fa-paper-plane"></i>
-            </button>
+        <div class="chat-input">
+            <div class="input-group">
+                <input type="text" class="form-control" id="aiChatInput" placeholder="اكتب سؤالك هنا...">
+                <button class="btn btn-primary" onclick="sendAIMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -739,19 +852,19 @@
                     <h5 class="mb-4">روابط سريعة</h5>
                     <ul class="list-unstyled">
                         <li><a href="#" class="text-white-50 text-decoration-none">الرئيسية</a></li>
-                        <li><a href="#" class="text-white-50 text-decoration-none">الدراسات</a></li>
-                        <li><a href="#" class="text-white-50 text-decoration-none">الخدمات الإلكترونية</a></li>
-                        <li><a href="#" class="text-white-50 text-decoration-none">المكتبة الإلكترونية</a></li>
+                        <li><a href="#gallery" class="text-white-50 text-decoration-none">معرض الصور</a></li>
+                        <li><a href="#services" class="text-white-50 text-decoration-none">الخدمات</a></li>
+                        <li><a href="dashboard.html" target="_blank" class="text-white-50 text-decoration-none">لوحة التحكم</a></li>
                     </ul>
                 </div>
                 
                 <div class="col-lg-3 col-md-4 mb-4">
                     <h5 class="mb-4">خدمات المركز</h5>
                     <ul class="list-unstyled">
+                        <li><a href="#" class="text-white-50 text-decoration-none">الدراسات</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">الخدمات الإلكترونية</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">المكتبة الإلكترونية</a></li>
                         <li><a href="#" class="text-white-50 text-decoration-none">الاصدارات</a></li>
-                        <li><a href="#analyticsDropdown" class="text-white-50 text-decoration-none">التحليلات البيانية</a></li>
-                        <li><a href="dashboard.html" target="_blank" class="text-white-50 text-decoration-none">لوحة التحكم</a></li>
-                        <li><a href="#ai-assistant" class="text-white-50 text-decoration-none">المساعد الافتراضي</a></li>
                     </ul>
                 </div>
                 
@@ -775,7 +888,7 @@
                     <a href="#" class="text-white">شروط الاستخدام</a>
                 </p>
                 <p class="mt-2">
-                    <small>الإصدار 3.1 | جميع الصور من فرع images في GitHub</small>
+                    <small>الإصدار 4.0 | جميع الصور من مستودع GitHub</small>
                 </p>
             </div>
         </div>
@@ -787,6 +900,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
     
     <script>
+        // ============================
+        // تهيئة عامة
+        // ============================
+        
         // تهيئة Lightbox
         lightbox.option({
             'resizeDuration': 200,
@@ -795,74 +912,10 @@
             'fadeDuration': 300
         });
         
-        // بيانات الصور من فرع images في GitHub
-        const galleryImages = [
-            {
-                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/heritage/badr-taib.webp',
-                thumbnail: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/heritage/thumbnails/badr-taib-thumb.webp',
-                title: 'بدر طيب - التراث الليبي',
-                category: 'heritage',
-                description: 'صورة تراثية من التراث الليبي الأصيل'
-            },
-            {
-                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/culture/casa-cultura.jpg',
-                thumbnail: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/culture/thumbnails/casa-cultura-thumb.jpg',
-                title: 'دار الثقافة',
-                category: 'heritage',
-                description: 'مركز ثقافي يعكس التراث المعماري'
-            },
-            {
-                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/archaeology/dji-0916.jpg',
-                thumbnail: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/archaeology/thumbnails/dji-0916-thumb.jpg',
-                title: 'المناظر الجوية',
-                category: 'archaeology',
-                description: 'منظر جوي للمواقع الأثرية'
-            },
-            {
-                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/archaeology/palace-haj-44.jpg',
-                thumbnail: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/archaeology/thumbnails/palace-haj-44-thumb.jpg',
-                title: 'قصر الحاج',
-                category: 'archaeology',
-                description: 'قصر تاريخي يعود للقرن الماضي'
-            },
-            {
-                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/nature/casa-campo.jpg',
-                thumbnail: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/nature/thumbnails/casa-campo-thumb.jpg',
-                title: 'كاسا دي كامبو',
-                category: 'nature',
-                description: 'منتجع طبيعي في الهواء الطلق'
-            },
-            {
-                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/cities/circus-lario.jpg',
-                thumbnail: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/cities/thumbnails/circus-lario-thumb.jpg',
-                title: 'سيرك لاريو',
-                category: 'cities',
-                description: 'منطقة ترفيهية في قلب المدينة'
-            },
-            {
-                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/archaeology/qabr-oun.jpg',
-                thumbnail: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/archaeology/thumbnails/qabr-oun-thumb.jpg',
-                title: 'قبرعون',
-                category: 'archaeology',
-                description: 'موقع أثري تاريخي'
-            },
-            {
-                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/heritage/mtakhndosh-1.jpg',
-                thumbnail: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/heritage/thumbnails/mtakhndosh-1-thumb.jpg',
-                title: 'متخندوش',
-                category: 'heritage',
-                description: 'منطقة تراثية تقليدية'
-            },
-            {
-                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/nature/nature-1.jpg',
-                thumbnail: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/nature/thumbnails/nature-1-thumb.jpg',
-                title: 'الطبيعة الليبية',
-                category: 'nature',
-                description: 'مناظر طبيعية خلابة'
-            }
-        ];
-        
+        // ============================
         // بيانات الإحصائيات
+        // ============================
+        
         const statisticsData = {
             tourists: 1030,
             hotels: 377,
@@ -874,58 +927,65 @@
             guests: 696469
         };
         
-        // تحميل معرض الصور
-        function loadGallery() {
-            const galleryContainer = document.getElementById('galleryContainer');
-            galleryContainer.innerHTML = '';
-            
-            galleryImages.forEach((image, index) => {
-                const col = document.createElement('div');
-                col.className = 'col-md-4 col-6 mb-4 gallery-item';
-                col.setAttribute('data-category', image.category);
-                
-                col.innerHTML = `
-                    <a href="${image.url}" data-lightbox="gallery" data-title="${image.title} - ${image.description}">
-                        <img src="${image.thumbnail || image.url}" alt="${image.title}" 
-                             onerror="this.src='${image.url}'">
-                        <div class="gallery-overlay">
-                            <i class="fas fa-search-plus"></i>
-                        </div>
-                    </a>
-                `;
-                
-                galleryContainer.appendChild(col);
-            });
-        }
+        // ============================
+        // بيانات معرض الصور (8 صور مختارة)
+        // ============================
         
-        // فلترة الصور
-        function initGalleryFilters() {
-            const filterBtns = document.querySelectorAll('.filter-btn');
-            const galleryItems = document.querySelectorAll('.gallery-item');
-            
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    // إزالة النشط من جميع الأزرار
-                    filterBtns.forEach(b => b.classList.remove('active'));
-                    
-                    // إضافة النشط للزر الحالي
-                    this.classList.add('active');
-                    
-                    const filter = this.getAttribute('data-filter');
-                    
-                    // تصفية العناصر
-                    galleryItems.forEach(item => {
-                        if (filter === 'all' || item.getAttribute('data-category') === filter) {
-                            item.style.display = 'block';
-                        } else {
-                            item.style.display = 'none';
-                        }
-                    });
-                });
-            });
-        }
+        const galleryImages = [
+            { 
+                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/DJI_0916.JPG',
+                title: 'صورة جوية رائعة',
+                category: 'aerial',
+                description: 'منظر جوي يظهر جمال الطبيعة الليبية'
+            },
+            { 
+                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/66bd8a_b04154d5e78446eb9774cf2d7a5cbfe1~mv2.webp',
+                title: 'موقع أثري تاريخي',
+                category: 'archaeology',
+                description: 'موقع أثري يعود لحضارة قديمة'
+            },
+            { 
+                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/1_Moment.jpg',
+                title: 'منظر طبيعي خلاب',
+                category: 'nature',
+                description: 'منظر طبيعي ساحر من ليبيا'
+            },
+            { 
+                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/%D9%82%D8%B5%D8%B1%20%D8%A7%D9%84%D8%AD%D8%A7%D8%AC%2044.JPG',
+                title: 'قصر الحاج التاريخي',
+                category: 'heritage',
+                description: 'قصر تاريخي يعود للقرن الماضي'
+            },
+            { 
+                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/WhatsApp%20Image%202025-01-30%20at%2016.11.56%20(22).jpeg',
+                title: 'تراث ليبي أصيل',
+                category: 'heritage',
+                description: 'صورة تعكس التراث الليبي الأصيل'
+            },
+            { 
+                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/WhatsApp%20Image%202025-02-01%20at%2023.38.14%20(7).jpeg',
+                title: 'سيرك لاريو',
+                category: 'cities',
+                description: 'منطقة ترفيهية في قلب المدينة'
+            },
+            { 
+                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/DJI_0403.JPG',
+                title: 'صورة جوية للمدينة',
+                category: 'aerial',
+                description: 'منظر جوي يظهر تخطيط المدينة'
+            },
+            { 
+                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/7.jpg',
+                title: 'طبيعة ساحرة',
+                category: 'nature',
+                description: 'منظر طبيعي يسر الناظرين'
+            }
+        ];
         
-        // تحديث العدادات بشكل متحرك
+        // ============================
+        // دوال العدادات المتحركة
+        // ============================
+        
         function animateCounters() {
             $('.stat-number').each(function() {
                 const $this = $(this);
@@ -960,14 +1020,75 @@
             });
         }
         
-        // إدارة المساعد الافتراضي
-        function toggleAIChat() {
-            const chatWindow = document.getElementById('aiChatWindow');
-            chatWindow.style.display = chatWindow.style.display === 'none' ? 'block' : 'none';
+        // ============================
+        // دوال معرض الصور
+        // ============================
+        
+        function loadMiniGallery() {
+            const galleryContainer = document.getElementById('galleryContainer');
+            if (!galleryContainer) return;
+            
+            galleryContainer.innerHTML = '';
+            
+            galleryImages.forEach((image, index) => {
+                const col = document.createElement('div');
+                col.className = 'col-md-3 col-6 mb-4 gallery-item';
+                col.setAttribute('data-category', image.category);
+                
+                col.innerHTML = `
+                    <a href="${image.url}" data-lightbox="gallery" 
+                       data-title="${image.title} - ${image.description}">
+                        <img src="${image.url}" alt="${image.title}" 
+                             class="img-fluid" 
+                             style="height: 180px; object-fit: cover;"
+                             loading="lazy">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-search-plus"></i>
+                        </div>
+                    </a>
+                `;
+                
+                galleryContainer.appendChild(col);
+            });
         }
         
-        function openAIChat() {
-            document.getElementById('aiChatWindow').style.display = 'block';
+        function initGalleryFilters() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // إزالة النشط من جميع الأزرار
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    
+                    // إضافة النشط للزر الحالي
+                    this.classList.add('active');
+                    
+                    const filter = this.getAttribute('data-filter');
+                    
+                    // تصفية العناصر
+                    galleryItems.forEach(item => {
+                        if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        }
+        
+        // ============================
+        // المساعد الافتراضي
+        // ============================
+        
+        function toggleAIChat() {
+            const chatWindow = document.getElementById('aiChatWindow');
+            if (chatWindow.style.display === 'none' || chatWindow.style.display === '') {
+                chatWindow.style.display = 'block';
+            } else {
+                chatWindow.style.display = 'none';
+            }
         }
         
         function closeAIChat() {
@@ -981,12 +1102,14 @@
             if (!message) return;
             
             // إضافة رسالة المستخدم
-            const chatMessages = document.getElementById('aiChatMessages');
-            chatMessages.innerHTML += `
-                <div class="alert alert-secondary p-2 text-end">
-                    <strong>أنت:</strong> ${message}
-                </div>
-            `;
+            const chatBody = document.getElementById('aiChatBody');
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message user-message';
+            userMessage.innerHTML = `<strong>أنت:</strong> ${message}`;
+            chatBody.appendChild(userMessage);
+            
+            // مسح حقل الإدخال
+            input.value = '';
             
             // إعداد ردود الذكاء الاصطناعي
             const responses = {
@@ -1002,9 +1125,9 @@
                          - عدد الغرف: ${statisticsData.rooms}<br>
                          - عدد القرى السياحية: ${statisticsData.villages}<br>
                          - عدد الشاليهات: ${statisticsData.chalets}`,
-                'صور': 'يمكنك زيارة معرض الصور لمشاهدة الصور السياحية من ليبيا.',
-                'اثار': 'يوجد في ليبيا العديد من المواقع الأثرية مثل لبتيس ماجنا، صبراتة، وغيرها.',
-                'خدمات': 'الخدمات المتاحة:<br>1. الدراسات السياحية<br>2. الخدمات الإلكترونية<br>3. المكتبة الإلكترونية<br>4. التحليلات البيانية<br>5. المساعد الافتراضي',
+                'صور': 'يمكنك زيارة معرض الصور لمشاهدة الصور السياحية من ليبيا. لدينا 44 صورة متنوعة.',
+                'اثار': 'يوجد في ليبيا العديد من المواقع الأثرية مثل لبتيس ماجنا، صبراتة، وغيرها. يمكنك رؤية بعضها في معرض الصور.',
+                'خدمات': 'الخدمات المتاحة:<br>1. الدراسات السياحية<br>2. الخدمات الإلكترونية<br>3. المكتبة الإلكترونية<br>4. التحليلات البيانية<br>5. معرض الصور',
                 'مساعد': 'أنا المساعد الافتراضي لمركز المعلومات السياحي. يمكنني الإجابة على أسئلتك حول السياحة في ليبيا.'
             };
             
@@ -1020,60 +1143,45 @@
             
             // محاكاة وقت المعالجة
             setTimeout(() => {
-                chatMessages.innerHTML += `
-                    <div class="alert alert-info p-2">
-                        <strong><i class="fas fa-robot me-2"></i> المساعد:</strong> ${response}
-                    </div>
-                `;
+                const aiMessage = document.createElement('div');
+                aiMessage.className = 'message ai-message';
+                aiMessage.innerHTML = `<strong>المساعد:</strong> ${response}`;
+                chatBody.appendChild(aiMessage);
                 
-                chatMessages.scrollTop = chatMessages.scrollHeight;
+                // التمرير لأسفل
+                chatBody.scrollTop = chatBody.scrollHeight;
             }, 1000);
-            
-            input.value = '';
-            chatMessages.scrollTop = chatMessages.scrollHeight;
         }
         
-        // تأثير التمرير السلس
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                if (this.getAttribute('href') === '#') return;
-                
-                const targetId = this.getAttribute('href');
-                if (targetId.startsWith('#')) {
-                    e.preventDefault();
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 80,
-                            behavior: 'smooth'
-                        });
-                    }
-                }
-            });
-        });
+        // ============================
+        // دوال مساعدة
+        // ============================
         
-        // تحديث السنة الحالية
         function updateCurrentYear() {
             document.getElementById('currentYear').textContent = new Date().getFullYear();
         }
         
-        // تهيئة الصفحة عند التحميل
-        $(document).ready(function() {
-            console.log('جاري تهيئة صفحة المركز السياحي...');
-            
-            // تحميل المعرض
-            loadGallery();
-            
-            // تهيئة الفلاتر
-            initGalleryFilters();
-            
-            // بدء العدادات المتحركة
-            setTimeout(animateCounters, 500);
-            
-            // تحديث السنة
-            updateCurrentYear();
-            
-            // تأثير شريط التنقل عند التمرير
+        function initSmoothScroll() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    if (this.getAttribute('href') === '#') return;
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId.startsWith('#')) {
+                        e.preventDefault();
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement) {
+                            window.scrollTo({
+                                top: targetElement.offsetTop - 80,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
+        }
+        
+        function initNavbarScroll() {
             $(window).scroll(function() {
                 if ($(window).scrollTop() > 50) {
                     $('.navbar').addClass('shadow-lg');
@@ -1081,8 +1189,41 @@
                     $('.navbar').removeClass('shadow-lg');
                 }
             });
+        }
+        
+        // ============================
+        // التهيئة عند تحميل الصفحة
+        // ============================
+        
+        $(document).ready(function() {
+            console.log('جاري تهيئة صفحة المركز السياحي...');
             
-            // إغلاق نافذة الدردشة عند النقر خارجها
+            // 1. تحديث السنة
+            updateCurrentYear();
+            
+            // 2. بدء العدادات المتحركة
+            setTimeout(animateCounters, 500);
+            
+            // 3. تحميل معرض الصور
+            setTimeout(loadMiniGallery, 1000);
+            
+            // 4. تهيئة فلاتر المعرض
+            setTimeout(initGalleryFilters, 1500);
+            
+            // 5. تهيئة التمرير السلس
+            initSmoothScroll();
+            
+            // 6. تهيئة شريط التنقل
+            initNavbarScroll();
+            
+            // 7. تمكين إرسال الرسالة بالضغط على Enter
+            $('#aiChatInput').keypress(function(e) {
+                if (e.which === 13) {
+                    sendAIMessage();
+                }
+            });
+            
+            // 8. إغلاق نافذة الدردشة عند النقر خارجها
             $(document).click(function(event) {
                 const aiChat = $('#aiChatWindow');
                 const aiButton = $('.ai-assistant');
@@ -1093,6 +1234,37 @@
             });
             
             console.log('تم تحميل الصفحة الرئيسية بنجاح!');
+        });
+        
+        // ============================
+        // تحديث الإحصائيات بشكل دوري
+        // ============================
+        
+        function updateStatistics() {
+            // محاكاة تحديث البيانات
+            statisticsData.tourists += Math.floor(Math.random() * 5);
+            statisticsData.guests += Math.floor(Math.random() * 50);
+            
+            // تحديث العناصر
+            document.getElementById('statTourists').textContent = statisticsData.tourists;
+            document.getElementById('statGuests').textContent = statisticsData.guests.toLocaleString('en-US');
+            
+            console.log('تم تحديث الإحصائيات');
+        }
+        
+        // تحديث الإحصائيات كل 30 ثانية
+        setInterval(updateStatistics, 30000);
+        
+        // ============================
+        // معالجة أخطاء الصور
+        // ============================
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('img').forEach(img => {
+                img.onerror = function() {
+                    this.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300"><rect width="400" height="300" fill="%231a4569"/><text x="200" y="150" font-family="Arial" font-size="20" fill="white" text-anchor="middle">صورة غير متاحة</text></svg>';
+                };
+            });
         });
     </script>
 </body>
