@@ -183,7 +183,7 @@ class TourismAssistant {
                         <img src="${image.url}" alt="${image.title}" 
                              class="img-fluid" 
                              loading="lazy"
-                             onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"300\" viewBox=\"0 0 400 300\"><rect width=\"400\" height=\"300\" fill=\"%231a4569\"/><text x=\"200\" y=\"150\" font-family=\"Arial\" font-size=\"20\" fill=\"white\" text-anchor=\"middle\">صورة غير متاحة</text></svg>'">
+                             onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"300\" viewBox=\"0 0 400 300\"><rect width=\"400\" height=\"300\" fill=\"%231a4569\"/><text x=\"200\" y=\"150\" font-family=\"Arial\" font-size=\"20\" fill=\"white\" text-anchor=\"middle\">صورة غير متاحة</text></svg>'">
                         <div class="gallery-overlay">
                             <i class="fas fa-search-plus"></i>
                             <p class="text-white mb-0">${image.title}</p>
