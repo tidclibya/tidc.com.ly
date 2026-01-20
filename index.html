@@ -40,422 +40,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
     
-    <style>
-        :root {
-            --primary-color: #1a4569;
-            --primary-dark: #0f2d44;
-            --secondary-color: #f8f9fa;
-            --accent-color: #d4af37;
-            --accent-light: #f1e5b9;
-        }
-        
-        body {
-            font-family: 'Cairo', 'Tahoma', sans-serif;
-            background-color: #f9f9f9;
-            overflow-x: hidden;
-        }
-        
-        /* Navbar */
-        .navbar {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15);
-            padding: 12px 0;
-            transition: all 0.3s ease;
-        }
-        
-        .navbar-brand {
-            font-weight: 700;
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-        }
-        
-        .logo {
-            height: 50px;
-            width: auto;
-            margin-left: 10px;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-        }
-        
-        .nav-link {
-            font-weight: 600;
-            margin: 0 5px;
-            position: relative;
-            transition: all 0.3s;
-        }
-        
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 0;
-            height: 3px;
-            background-color: var(--accent-color);
-            transition: width 0.3s;
-        }
-        
-        .nav-link:hover::after {
-            width: 100%;
-        }
-        
-        /* Hero Section */
-        .hero-section {
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), 
-                        url('https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/DJI_0916.JPG') no-repeat center center;
-            background-size: cover;
-            background-attachment: fixed;
-            color: white;
-            padding: 180px 0 100px;
-            text-align: center;
-            position: relative;
-        }
-        
-        .hero-title {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
-        }
-        
-        .hero-subtitle {
-            font-size: 1.5rem;
-            margin-bottom: 40px;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        /* Live Stats Section */
-        .live-stats-section {
-            padding: 80px 0;
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .live-stats-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.05"><circle cx="50" cy="50" r="40" stroke="white" stroke-width="2" fill="none" /></svg>');
-            background-size: 200px;
-        }
-        
-        .stat-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 25px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-            height: 100%;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-        
-        .stat-icon {
-            font-size: 2.5rem;
-            color: var(--accent-color);
-            margin-bottom: 15px;
-        }
-        
-        .stat-number {
-            font-size: 2.8rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-            color: var(--accent-color);
-            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
-        }
-        
-        .stat-title {
-            font-size: 1.1rem;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-        
-        .stat-change {
-            font-size: 0.9rem;
-            font-weight: 500;
-            padding: 5px 10px;
-            border-radius: 20px;
-            display: inline-block;
-        }
-        
-        .stat-change.positive {
-            background: rgba(40, 167, 69, 0.2);
-            color: #28a745;
-        }
-        
-        .stat-change.negative {
-            background: rgba(220, 53, 69, 0.2);
-            color: #dc3545;
-        }
-        
-        /* Sections */
-        .section-title {
-            position: relative;
-            margin-bottom: 40px;
-            font-weight: 700;
-            text-align: center;
-            color: var(--primary-dark);
-        }
-        
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            right: 50%;
-            transform: translateX(50%);
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary-color) 0%, var(--accent-color) 100%);
-            border-radius: 2px;
-        }
-        
-        .service-card {
-            transition: all 0.4s ease;
-            border: none;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            height: 100%;
-            background: white;
-        }
-        
-        .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-        }
-        
-        .service-icon {
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            margin-bottom: 20px;
-        }
-        
-        /* Gallery Section */
-        .gallery-section {
-            padding: 80px 0;
-            background: #f8f9fa;
-        }
-        
-        .gallery-item {
-            position: relative;
-            overflow: hidden;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            height: 250px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        
-        .gallery-item:hover img {
-            transform: scale(1.1);
-        }
-        
-        .gallery-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .gallery-item:hover .gallery-overlay {
-            opacity: 1;
-        }
-        
-        .gallery-overlay i {
-            color: white;
-            font-size: 2rem;
-        }
-        
-        /* Gallery Filters */
-        .gallery-filters {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-        
-        .filter-btn {
-            padding: 8px 20px;
-            border: 2px solid var(--primary-color);
-            background: white;
-            color: var(--primary-color);
-            border-radius: 25px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .filter-btn:hover,
-        .filter-btn.active {
-            background: var(--primary-color);
-            color: white;
-        }
-        
-        /* AI Assistant */
-        .ai-assistant {
-            position: fixed;
-            bottom: 30px;
-            left: 30px;
-            z-index: 1000;
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-            border-radius: 50px;
-            box-shadow: 0 8px 25px rgba(26, 69, 105, 0.4);
-            padding: 12px 25px;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            color: white;
-            font-weight: 600;
-            transition: all 0.3s;
-            animation: pulse 2s infinite;
-        }
-        
-        .ai-assistant:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(26, 69, 105, 0.5);
-        }
-        
-        @keyframes pulse {
-            0% { box-shadow: 0 8px 25px rgba(26, 69, 105, 0.4); }
-            50% { box-shadow: 0 8px 25px rgba(26, 69, 105, 0.8); }
-            100% { box-shadow: 0 8px 25px rgba(26, 69, 105, 0.4); }
-        }
-        
-        /* AI Chat Window */
-        .ai-chat-window {
-            position: fixed;
-            bottom: 90px;
-            left: 30px;
-            width: 350px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            z-index: 1050;
-            display: none;
-            overflow: hidden;
-        }
-        
-        .chat-header {
-            background: var(--primary-color);
-            color: white;
-            padding: 15px;
-            border-top-left-radius: 15px;
-            border-top-right-radius: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .chat-body {
-            height: 300px;
-            overflow-y: auto;
-            padding: 15px;
-        }
-        
-        .message {
-            margin-bottom: 10px;
-            padding: 10px;
-            border-radius: 10px;
-            max-width: 80%;
-        }
-        
-        .user-message {
-            background: #e3f2fd;
-            margin-left: auto;
-        }
-        
-        .ai-message {
-            background: #f5f5f5;
-            margin-right: auto;
-        }
-        
-        .chat-input {
-            border-top: 1px solid #eee;
-            padding: 15px;
-        }
-        
-        /* Responsive */
-        @media (max-width: 992px) {
-            .hero-title {
-                font-size: 2.8rem;
-            }
-            
-            .hero-subtitle {
-                font-size: 1.2rem;
-            }
-            
-            .stat-number {
-                font-size: 2.3rem;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2.3rem;
-            }
-            
-            .stat-number {
-                font-size: 2rem;
-            }
-            
-            .ai-assistant {
-                bottom: 20px;
-                left: 20px;
-                padding: 10px 20px;
-                font-size: 0.9rem;
-            }
-            
-            .ai-chat-window {
-                width: 300px;
-                left: 20px;
-            }
-            
-            .gallery-item {
-                height: 200px;
-            }
-        }
-        
-        @media (max-width: 576px) {
-            .hero-title {
-                font-size: 1.8rem;
-            }
-            
-            .hero-subtitle {
-                font-size: 1rem;
-            }
-            
-            .ai-chat-window {
-                width: calc(100% - 40px);
-                left: 20px;
-            }
-        }
-    </style>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -679,7 +265,34 @@
         </div>
     </section>
 
-      <!-- Services Section -->
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery-section">
+        <div class="container">
+            <h2 class="section-title">معرض الصور السياحية</h2>
+            <p class="text-center text-muted mb-5">44 صورة تعرض جمال الطبيعة، الآثار والتراث الليبي</p>
+            
+            <div class="gallery-filters">
+                <button class="filter-btn active" data-filter="all">الكل</button>
+                <button class="filter-btn" data-filter="aerial">جوي</button>
+                <button class="filter-btn" data-filter="archaeology">آثار</button>
+                <button class="filter-btn" data-filter="nature">طبيعة</button>
+                <button class="filter-btn" data-filter="heritage">تراث</button>
+                <button class="filter-btn" data-filter="cities">مدن</button>
+            </div>
+            
+            <div class="row" id="galleryContainer">
+                <!-- سيتم تحميل الصور هنا عبر JavaScript -->
+            </div>
+            
+            <div class="text-center mt-5">
+                <a href="gallery.html" class="btn btn-primary btn-lg">
+                    <i class="fas fa-images me-2"></i> معرض الصور الكامل
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
     <section id="services" class="py-5">
         <div class="container">
             <h2 class="section-title">خدمات المركز الرئيسية</h2>
@@ -806,448 +419,58 @@
     </div>
 
     <!-- Footer -->
-    <footer>
-
-  <!-- Footer Navbar -->
-  <nav class="footer-navbar">
-    <div class="container">
-      <ul class="footer-nav-menu">
-
-        <li class="footer-nav-item">
-          <a href="#" class="footer-nav-link">
-            <i class="fas fa-book"></i> المكتبة السياحية
-          </a>
-          <ul class="footer-dropdown-menu">
-            <li class="footer-dropdown-item"><a href="#">الدراسات والأبحاث</a></li>
-            <li class="footer-dropdown-item"><a href="#">الإصدارات</a></li>
-            <li class="footer-dropdown-item"><a href="#">التقارير</a></li>
-            <li class="footer-dropdown-item"><a href="#">البيانات التاريخية</a></li>
-          </ul>
-        </li>
-
-        <li class="footer-nav-item">
-          <a href="#" class="footer-nav-link">
-            <i class="fas fa-images"></i> معرض الصور
-          </a>
-          <ul class="footer-dropdown-menu">
-            <li class="footer-dropdown-item"><a href="#">الآثار</a></li>
-            <li class="footer-dropdown-item"><a href="#">الطبيعة</a></li>
-            <li class="footer-dropdown-item"><a href="#">التراث</a></li>
-          </ul>
-        </li>
-
-        <li class="footer-nav-item">
-          <a href="#" class="footer-nav-link">
-            <i class="fas fa-robot"></i> المساعد الافتراضي
-          </a>
-          <ul class="footer-dropdown-menu">
-            <li class="footer-dropdown-item"><a href="#">الأسئلة الشائعة</a></li>
-            <li class="footer-dropdown-item"><a href="#">الدعم الفني</a></li>
-          </ul>
-        </li>
-
-        <li class="footer-nav-item">
-          <a href="#" class="footer-nav-link">
-            <i class="fas fa-phone"></i> تواصل معنا
-          </a>
-          <ul class="footer-dropdown-menu">
-            <li class="footer-dropdown-item"><a href="#">طرابلس – ليبيا</a></li>
-            <li class="footer-dropdown-item"><a href="#">info@tidc.com.ly</a></li>
-            <li class="footer-dropdown-item"><a href="#">الأحد – الخميس</a></li>
-          </ul>
-        </li>
-
-      </ul>
-    </div>
-  </nav>
-
-  <!-- Footer Bottom -->
-  <div class="copyright">
-    <div class="container text-center">
-      <p class="mb-1">© <span id="currentYear"></span> مركز المعلومات والتوثيق السياحي الليبي</p>
-      <div class="copyright-links">
-        <a href="#">سياسة الخصوصية</a>
-        <a href="#">شروط الاستخدام</a>
-        <a href="#">خريطة الموقع</a>
-      </div>
-    </div>
-  </div>
-
-</footer>
-
+    <footer class="bg-dark text-white pt-4 pb-2">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="mb-3">عن المركز</h5>
+                    <p>المركز الرسمي للمعلومات السياحية في ليبيا، يهدف إلى تطوير القطاع السياحي وتقديم خدمات معلوماتية متكاملة.</p>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="mb-3">روابط سريعة</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white-50 text-decoration-none">الرئيسية</a></li>
+                        <li><a href="#services" class="text-white-50 text-decoration-none">الخدمات</a></li>
+                        <li><a href="#gallery" class="text-white-50 text-decoration-none">معرض الصور</a></li>
+                        <li><a href="dashboard.html" class="text-white-50 text-decoration-none">لوحة التحكم</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="mb-3">معلومات التواصل</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-map-marker-alt me-2"></i> طرابلس، ليبيا</li>
+                        <li><i class="fas fa-phone me-2"></i> +218-21-XXXXXX</li>
+                        <li><i class="fas fa-envelope me-2"></i> info@tidc.com.ly</li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="mb-3">تابعنا</h5>
+                    <div class="d-flex">
+                        <a href="#" class="me-3 text-white"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="me-3 text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="me-3 text-white"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="me-3 text-white"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="mb-4">
+            <div class="text-center">
+                <p>© <span id="currentYear"></span> مركز المعلومات والتوثيق السياحي الليبي. جميع الحقوق محفوظة.</p>
+                <div>
+                    <a href="#" class="text-white-50 me-3 text-decoration-none">سياسة الخصوصية</a>
+                    <a href="#" class="text-white-50 me-3 text-decoration-none">شروط الاستخدام</a>
+                    <a href="sitemap.xml" class="text-white-50 text-decoration-none">خريطة الموقع</a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
     
-    <script>
-        // ============================
-        // تهيئة عامة
-        // ============================
-        
-        // تهيئة Lightbox
-        lightbox.option({
-            'resizeDuration': 200,
-            'wrapAround': true,
-            'albumLabel': 'صورة %1 من %2',
-            'fadeDuration': 300
-        });
-        
-        // ============================
-        // بيانات الإحصائيات
-        // ============================
-        
-        const statisticsData = {
-            tourists: 1030,
-            hotels: 377,
-            revenue: 3.2,
-            companies: 2432,
-            rooms: 18366,
-            chalets: 7236,
-            villages: 132,
-            guests: 696469
-        };
-        
-        // ============================
-        // بيانات معرض الصور (8 صور مختارة)
-        // ============================
-        
-        const galleryImages = [
-            { 
-                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/DJI_0916.JPG',
-                title: 'صورة جوية رائعة',
-                category: 'aerial',
-                description: 'منظر جوي يظهر جمال الطبيعة الليبية'
-            },
-            { 
-                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/66bd8a_b04154d5e78446eb9774cf2d7a5cbfe1~mv2.webp',
-                title: 'موقع أثري تاريخي',
-                category: 'archaeology',
-                description: 'موقع أثري يعود لحضارة قديمة'
-            },
-            { 
-                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/1_Moment.jpg',
-                title: 'منظر طبيعي خلاب',
-                category: 'nature',
-                description: 'منظر طبيعي ساحر من ليبيا'
-            },
-            { 
-                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/%D9%82%D8%B5%D8%B1%20%D8%A7%D9%84%D8%AD%D8%A7%D8%AC%2044.JPG',
-                title: 'قصر الحاج التاريخي',
-                category: 'heritage',
-                description: 'قصر تاريخي يعود للقرن الماضي'
-            },
-            { 
-                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/WhatsApp%20Image%202025-01-30%20at%2016.11.56%20(22).jpeg',
-                title: 'تراث ليبي أصيل',
-                category: 'heritage',
-                description: 'صورة تعكس التراث الليبي الأصيل'
-            },
-            { 
-                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/WhatsApp%20Image%202025-02-01%20at%2023.38.14%20(7).jpeg',
-                title: 'سيرك لاريو',
-                category: 'cities',
-                description: 'منطقة ترفيهية في قلب المدينة'
-            },
-            { 
-                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/DJI_0403.JPG',
-                title: 'صورة جوية للمدينة',
-                category: 'aerial',
-                description: 'منظر جوي يظهر تخطيط المدينة'
-            },
-            { 
-                url: 'https://raw.githubusercontent.com/tidclibya/tidc.com.ly/images/7.jpg',
-                title: 'طبيعة ساحرة',
-                category: 'nature',
-                description: 'منظر طبيعي يسر الناظرين'
-            }
-        ];
-        
-        // ============================
-        // دوال العدادات المتحركة
-        // ============================
-        
-        function animateCounters() {
-            $('.stat-number').each(function() {
-                const $this = $(this);
-                let value = 0;
-                
-                switch($this.attr('id')) {
-                    case 'statTourists': value = statisticsData.tourists; break;
-                    case 'statHotels': value = statisticsData.hotels; break;
-                    case 'statRevenue': value = statisticsData.revenue; break;
-                    case 'statCompanies': value = statisticsData.companies; break;
-                    case 'statRooms': value = statisticsData.rooms; break;
-                    case 'statChalets': value = statisticsData.chalets; break;
-                    case 'statVillages': value = statisticsData.villages; break;
-                    case 'statGuests': value = statisticsData.guests; break;
-                }
-                
-                $this.prop('Counter', 0).animate({
-                    Counter: value
-                }, {
-                    duration: 2000,
-                    easing: 'swing',
-                    step: function(now) {
-                        if ($this.attr('id') === 'statRevenue') {
-                            $this.text(now.toFixed(1));
-                        } else if ($this.attr('id') === 'statGuests') {
-                            $this.text(Math.ceil(now).toLocaleString('en-US'));
-                        } else {
-                            $this.text(Math.ceil(now));
-                        }
-                    }
-                });
-            });
-        }
-        
-        // ============================
-        // دوال معرض الصور
-        // ============================
-        
-        function loadMiniGallery() {
-            const galleryContainer = document.getElementById('galleryContainer');
-            if (!galleryContainer) return;
-            
-            galleryContainer.innerHTML = '';
-            
-            galleryImages.forEach((image, index) => {
-                const col = document.createElement('div');
-                col.className = 'col-md-3 col-6 mb-4 gallery-item';
-                col.setAttribute('data-category', image.category);
-                
-                col.innerHTML = `
-                    <a href="${image.url}" data-lightbox="gallery" 
-                       data-title="${image.title} - ${image.description}">
-                        <img src="${image.url}" alt="${image.title}" 
-                             class="img-fluid" 
-                             style="height: 180px; object-fit: cover;"
-                             loading="lazy">
-                        <div class="gallery-overlay">
-                            <i class="fas fa-search-plus"></i>
-                        </div>
-                    </a>
-                `;
-                
-                galleryContainer.appendChild(col);
-            });
-        }
-        
-        function initGalleryFilters() {
-            const filterBtns = document.querySelectorAll('.filter-btn');
-            const galleryItems = document.querySelectorAll('.gallery-item');
-            
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    // إزالة النشط من جميع الأزرار
-                    filterBtns.forEach(b => b.classList.remove('active'));
-                    
-                    // إضافة النشط للزر الحالي
-                    this.classList.add('active');
-                    
-                    const filter = this.getAttribute('data-filter');
-                    
-                    // تصفية العناصر
-                    galleryItems.forEach(item => {
-                        if (filter === 'all' || item.getAttribute('data-category') === filter) {
-                            item.style.display = 'block';
-                        } else {
-                            item.style.display = 'none';
-                        }
-                    });
-                });
-            });
-        }
-        
-        // ============================
-        // المساعد الافتراضي
-        // ============================
-        
-        function toggleAIChat() {
-            const chatWindow = document.getElementById('aiChatWindow');
-            if (chatWindow.style.display === 'none' || chatWindow.style.display === '') {
-                chatWindow.style.display = 'block';
-            } else {
-                chatWindow.style.display = 'none';
-            }
-        }
-        
-        function closeAIChat() {
-            document.getElementById('aiChatWindow').style.display = 'none';
-        }
-        
-        function sendAIMessage() {
-            const input = document.getElementById('aiChatInput');
-            const message = input.value.trim();
-            
-            if (!message) return;
-            
-            // إضافة رسالة المستخدم
-            const chatBody = document.getElementById('aiChatBody');
-            const userMessage = document.createElement('div');
-            userMessage.className = 'message user-message';
-            userMessage.innerHTML = `<strong>أنت:</strong> ${message}`;
-            chatBody.appendChild(userMessage);
-            
-            // مسح حقل الإدخال
-            input.value = '';
-            
-            // إعداد ردود الذكاء الاصطناعي
-            const responses = {
-                'مرحبا': 'مرحباً بك! كيف يمكنني مساعدتك اليوم؟',
-                'السلام عليكم': 'وعليكم السلام ورحمة الله وبركاته. أهلاً بك في مركز المعلومات السياحي.',
-                'احصائيات': `أحدث الإحصائيات:<br>
-                             - السياح الوافدين: ${statisticsData.tourists} ألف<br>
-                             - الفنادق: ${statisticsData.hotels} فندق<br>
-                             - الإيرادات: ${statisticsData.revenue} مليار د.ل<br>
-                             للتفاصيل، زر <a href="dashboard.html" target="_blank">لوحة التحكم</a>.`,
-                'فنادق': `معلومات الفنادق:<br>
-                         - عدد الفنادق: ${statisticsData.hotels}<br>
-                         - عدد الغرف: ${statisticsData.rooms}<br>
-                         - عدد القرى السياحية: ${statisticsData.villages}<br>
-                         - عدد الشاليهات: ${statisticsData.chalets}`,
-                'صور': 'يمكنك زيارة معرض الصور لمشاهدة الصور السياحية من ليبيا. لدينا 44 صورة متنوعة.',
-                'اثار': 'يوجد في ليبيا العديد من المواقع الأثرية مثل لبتيس ماجنا، صبراتة، وغيرها. يمكنك رؤية بعضها في معرض الصور.',
-                'خدمات': 'الخدمات المتاحة:<br>1. الدراسات السياحية<br>2. الخدمات الإلكترونية<br>3. المكتبة الإلكترونية<br>4. التحليلات البيانية<br>5. معرض الصور',
-                'مساعد': 'أنا المساعد الافتراضي لمركز المعلومات السياحي. يمكنني الإجابة على أسئلتك حول السياحة في ليبيا.'
-            };
-            
-            // البحث عن رد مناسب
-            let response = 'شكراً لسؤالك. يمكنني مساعدتك في معلومات عن:<br>1. الإحصائيات السياحية<br>2. الفنادق والمنشآت<br>3. المواقع الأثرية<br>4. خدمات المركز<br>يرجى توضيح سؤالك أكثر.';
-            
-            for (const [key, value] of Object.entries(responses)) {
-                if (message.toLowerCase().includes(key.toLowerCase())) {
-                    response = value;
-                    break;
-                }
-            }
-            
-            // محاكاة وقت المعالجة
-            setTimeout(() => {
-                const aiMessage = document.createElement('div');
-                aiMessage.className = 'message ai-message';
-                aiMessage.innerHTML = `<strong>المساعد:</strong> ${response}`;
-                chatBody.appendChild(aiMessage);
-                
-                // التمرير لأسفل
-                chatBody.scrollTop = chatBody.scrollHeight;
-            }, 1000);
-        }
-        
-        // ============================
-        // دوال مساعدة
-        // ============================
-        
-        function updateCurrentYear() {
-            document.getElementById('currentYear').textContent = new Date().getFullYear();
-        }
-        
-        function initSmoothScroll() {
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    if (this.getAttribute('href') === '#') return;
-                    
-                    const targetId = this.getAttribute('href');
-                    if (targetId.startsWith('#')) {
-                        e.preventDefault();
-                        const targetElement = document.querySelector(targetId);
-                        if (targetElement) {
-                            window.scrollTo({
-                                top: targetElement.offsetTop - 80,
-                                behavior: 'smooth'
-                            });
-                        }
-                    }
-                });
-            });
-        }
-        
-        function initNavbarScroll() {
-            $(window).scroll(function() {
-                if ($(window).scrollTop() > 50) {
-                    $('.navbar').addClass('shadow-lg');
-                } else {
-                    $('.navbar').removeClass('shadow-lg');
-                }
-            });
-        }
-        
-        // ============================
-        // التهيئة عند تحميل الصفحة
-        // ============================
-        
-        $(document).ready(function() {
-            console.log('جاري تهيئة صفحة المركز السياحي...');
-            
-            // 1. تحديث السنة
-            updateCurrentYear();
-            
-            // 2. بدء العدادات المتحركة
-            setTimeout(animateCounters, 500);
-            
-            // 3. تحميل معرض الصور
-            setTimeout(loadMiniGallery, 1000);
-            
-            // 4. تهيئة فلاتر المعرض
-            setTimeout(initGalleryFilters, 1500);
-            
-            // 5. تهيئة التمرير السلس
-            initSmoothScroll();
-            
-            // 6. تهيئة شريط التنقل
-            initNavbarScroll();
-            
-            // 7. تمكين إرسال الرسالة بالضغط على Enter
-            $('#aiChatInput').keypress(function(e) {
-                if (e.which === 13) {
-                    sendAIMessage();
-                }
-            });
-            
-            // 8. إغلاق نافذة الدردشة عند النقر خارجها
-            $(document).click(function(event) {
-                const aiChat = $('#aiChatWindow');
-                const aiButton = $('.ai-assistant');
-                if (!aiChat.is(event.target) && aiChat.has(event.target).length === 0 && 
-                    !aiButton.is(event.target) && aiButton.has(event.target).length === 0) {
-                    aiChat.hide();
-                }
-            });
-            
-            console.log('تم تحميل الصفحة الرئيسية بنجاح!');
-        });
-        
-        // ============================
-        // تحديث الإحصائيات بشكل دوري
-        // ============================
-        
-        function updateStatistics() {
-            // محاكاة تحديث البيانات
-            statisticsData.tourists += Math.floor(Math.random() * 5);
-            statisticsData.guests += Math.floor(Math.random() * 50);
-            
-            // تحديث العناصر
-            document.getElementById('statTourists').textContent = statisticsData.tourists;
-            document.getElementById('statGuests').textContent = statisticsData.guests.toLocaleString('en-US');
-            
-            console.log('تم تحديث الإحصائيات');
-        }
-        
-        // تحديث الإحصائيات كل 30 ثانية
-        setInterval(updateStatistics, 30000);
-        
-        // ============================
-        // معالجة أخطاء الصور
-        // ============================
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('img').forEach(img => {
-                img.onerror = function() {
-                    this.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300"><rect width="400" height="300" fill="%231a4569"/><text x="200" y="150" font-family="Arial" font-size="20" fill="white" text-anchor="middle">صورة غير متاحة</text></svg>';
-                };
-            });
-        });
-    </script>
+    <!-- Custom JS -->
+    <script src="js/main.js"></script>
 </body>
 </html>
